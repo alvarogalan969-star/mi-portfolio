@@ -2,9 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -39,12 +42,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Ejecuta unit tests solo si existen
+      # Ejecuta unit tests solo si existen (por si quitaste tests)
       - name: Unit tests (Vitest)
         if: ${{ hashFiles('src/**/*.test.{ts,tsx}', 'src/**/__tests__/**/*', 'tests/unit/**/*') != '' }}
         run: npm run test -- --run
 
-      # E2E opcional: descomenta cuando quieras usarlos en CI
+      # E2E opcional (Playwright) — cuando quieras lo activamos
       # - name: Install Playwright browsers
       #   run: npx playwright install --with-deps
       # - name: Start Next (background)
@@ -53,5 +56,3 @@ jobs:
       #   run: npx wait-on http://127.0.0.1:3000
       # - name: E2E (Playwright)
       #   run: npm run test:e2e
-
-
