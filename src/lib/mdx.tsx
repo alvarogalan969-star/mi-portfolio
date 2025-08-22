@@ -12,7 +12,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <a {...props} className={["text-indigo-600 underline", props.className].filter(Boolean).join(" ")} />
     ),
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-      // eslint-disable-next-line @next/next/no-img-element
       <img {...props} />
     ),
     pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
