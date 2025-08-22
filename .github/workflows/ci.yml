@@ -1,3 +1,57 @@
+name: CI
 
-q
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NEXT_TELEMETRY_DISABLED: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Lint (sin warnings)
+        run: npm run lint -- --max-warnings=0
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      # Ejecuta unit tests solo si existen
+      - name: Unit tests (Vitest)
+        if: ${{ hashFiles('src/**/*.test.{ts,tsx}', 'src/**/__tests__/**/*', 'tests/unit/**/*') != '' }}
+        run: npm run test -- --run
+
+      # E2E opcional: descomenta cuando quieras usarlos en CI
+      # - name: Install Playwright browsers
+      #   run: npx playwright install --with-deps
+      # - name: Start Next (background)
+      #   run: npm run start &
+      # - name: Wait for server
+      #   run: npx wait-on http://127.0.0.1:3000
+      # - name: E2E (Playwright)
+      #   run: npm run test:e2e
+
 
