@@ -42,17 +42,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Ejecuta unit tests solo si existen (por si quitaste tests)
-      - name: Unit tests (Vitest)
+      - name: Unit tests (Vitest) si existen
         if: ${{ hashFiles('src/**/*.test.{ts,tsx}', 'src/**/__tests__/**/*', 'tests/unit/**/*') != '' }}
         run: npm run test -- --run
-
-      # E2E opcional (Playwright) — cuando quieras lo activamos
-      # - name: Install Playwright browsers
-      #   run: npx playwright install --with-deps
-      # - name: Start Next (background)
-      #   run: npm run start &
-      # - name: Wait for server
-      #   run: npx wait-on http://127.0.0.1:3000
-      # - name: E2E (Playwright)
-      #   run: npm run test:e2e
