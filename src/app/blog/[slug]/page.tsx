@@ -1,38 +1,31 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import matter from 'gray-matter';
-import type { Metadata } from 'next';
-import { MDXRenderer } from '@/lib/mdx';
-import { getPostMeta } from '@/lib/content/blog';
+// src/app/blog/[slug]/page.tsx
+import type { Metadata } from "next";
 
-const blogDir = path.join(process.cwd(), 'src', 'content', 'blog');
+export const metadata: Metadata = {
+  title: "Blog — Próximamente",
+  description: "Artículos en preparación.",
+};
 
-export function generateStaticParams() {
-  return getPostMeta().map((p) => ({ slug: p.slug }));
-}
+export default function PostPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const file = path.join(blogDir, `${params.slug}.mdx`);
-  if (!fs.existsSync(file)) return { title: 'Artículo no encontrado' };
-  const raw = fs.readFileSync(file, 'utf8');
-  const { data } = matter(raw);
-  return {
-    title: (data.title as string) ?? params.slug,
-    description: (data.summary as string) ?? undefined,
-    alternates: { canonical: `/blog/${params.slug}` },
-  };
-}
-
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const file = path.join(blogDir, `${params.slug}.mdx`);
-  if (!fs.existsSync(file)) return <p>Artículo no encontrado.</p>;
-  const raw = fs.readFileSync(file, 'utf8');
-  const { content, data } = matter(raw);
   return (
-    <article className="prose prose-neutral max-w-none">
-      <h1>{(data.title as string) ?? params.slug}</h1>
-      {data.summary && <p className="text-gray-600">{String(data.summary)}</p>}
-      <MDXRenderer source={content} />
-    </article>
+    <main className="py-16">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold text-zinc-900">Artículo: {slug}</h1>
+        <p className="mt-2 text-zinc-600">Contenido próximamente.</p>
+      </header>
+
+      <div className="rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 p-10 text-center">
+        <div className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-zinc-200">
+          <span className="text-xl">✍️</span>
+        </div>
+        <h2 className="mt-4 text-2xl font-semibold text-zinc-900">Próximamente</h2>
+        <p className="mt-2 text-zinc-600">
+          Estoy preparando este artículo. Mientras tanto, vuelve al{" "}
+          <a href="/blog" className="font-medium text-indigo-600 hover:text-indigo-800">blog</a>.
+        </p>
+      </div>
+    </main>
   );
 }
