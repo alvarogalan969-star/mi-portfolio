@@ -3,6 +3,18 @@ import { useState } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+type ContactPayload = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  company?: string; // honeypot
+};
+
+function toStr(v: FormDataEntryValue | null | undefined) {
+  return typeof v === "string" ? v : "";
+}
+
 export default function ContactoPage() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -14,10 +26,17 @@ export default function ContactoPage() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
 
-    // Honeypot simple
-    if ((payload as any).company) {
+    const data: ContactPayload = {
+      name: toStr(formData.get("name")),
+      email: toStr(formData.get("email")),
+      subject: toStr(formData.get("subject")),
+      message: toStr(formData.get("message")),
+      company: toStr(formData.get("company")) || undefined,
+    };
+
+    // Honeypot
+    if (data.company) {
       setStatus("success");
       return;
     }
@@ -26,13 +45,13 @@ export default function ContactoPage() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
       });
 
       if (!res.ok) {
         try {
-          const data = await res.json();
-          setError(data?.message || "No se pudo enviar el mensaje.");
+          const body = (await res.json()) as { message?: string };
+          setError(body?.message || "No se pudo enviar el mensaje.");
         } catch {
           setError("No se pudo enviar el mensaje.");
         }
@@ -70,9 +89,7 @@ export default function ContactoPage() {
               aria-live="polite"
             >
               <h2 className="text-2xl font-semibold text-green-800">¡Mensaje enviado!</h2>
-              <p className="mt-2 text-green-700">
-                Gracias por escribir. Te responderé muy pronto.
-              </p>
+              <p className="mt-2 text-green-700">Gracias por escribir. Te responderé muy pronto.</p>
               <button
                 onClick={() => setStatus("idle")}
                 className="mt-6 inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-sm"
@@ -84,10 +101,11 @@ export default function ContactoPage() {
             <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm md:p-8">
               <form onSubmit={onSubmit} className="space-y-5" noValidate>
                 <div>
-                  <label className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="name" className="block text-sm font-medium text-zinc-800">
                     Nombre
                   </label>
                   <input
+                    id="name"
                     name="name"
                     required
                     placeholder="Tu nombre"
@@ -96,10 +114,11 @@ export default function ContactoPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="email" className="block text-sm font-medium text-zinc-800">
                     Email
                   </label>
                   <input
+                    id="email"
                     name="email"
                     type="email"
                     required
@@ -109,10 +128,11 @@ export default function ContactoPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="subject" className="block text-sm font-medium text-zinc-800">
                     Asunto
                   </label>
                   <input
+                    id="subject"
                     name="subject"
                     required
                     placeholder="Asunto del mensaje"
@@ -121,10 +141,11 @@ export default function ContactoPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="message" className="block text-sm font-medium text-zinc-800">
                     Mensaje
                   </label>
                   <textarea
+                    id="message"
                     name="message"
                     rows={6}
                     required
@@ -134,12 +155,7 @@ export default function ContactoPage() {
                 </div>
 
                 {/* Honeypot oculto para bots */}
-                <input
-                  name="company"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  className="hidden"
-                />
+                <input name="company" tabIndex={-1} autoComplete="off" className="hidden" />
 
                 <div className="flex justify-end gap-3 pt-2">
                   <button
@@ -152,11 +168,7 @@ export default function ContactoPage() {
                 </div>
 
                 {status === "error" && (
-                  <p
-                    className="mt-3 text-sm text-red-600"
-                    role="alert"
-                    aria-live="assertive"
-                  >
+                  <p className="mt-3 text-sm text-red-600" role="alert" aria-live="assertive">
                     {error ?? "Ha ocurrido un error. Inténtalo de nuevo."}
                   </p>
                 )}

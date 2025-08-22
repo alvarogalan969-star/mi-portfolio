@@ -5,21 +5,17 @@ import * as React from "react";
 
 afterEach(() => cleanup());
 
-// Mock next/image → <img>
+// next/image → <img>
 vi.mock("next/image", () => {
+  type ImgProps = React.ImgHTMLAttributes<HTMLImageElement>;
   return {
-    default: (props: any) =>
-      React.createElement("img", {
-        ...props,
-        src: typeof props?.src === "string" ? props.src : "",
-        alt: props?.alt ?? "",
-      }),
+    default: (props: ImgProps) => React.createElement("img", props),
   };
 });
 
-// Mock mínimo de next/navigation usado por Header
+// next/navigation (si mockeas)
 vi.mock("next/navigation", async (orig) => {
-  const actual = (await orig()) as any;
+  const actual = (await orig()) as Record<string, unknown>;
   return {
     ...actual,
     usePathname: () => "/",

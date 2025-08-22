@@ -5,7 +5,7 @@ export async function GET() {
   return NextResponse.json({ status: 'ok' });
 }
 
-export async function POST(_req: Request) {
+export async function POST(/*_req: Request*/) {
   // placeholder; en el Paso 6 implementaremos validación y envío
   return NextResponse.json({ ok: true });
 }

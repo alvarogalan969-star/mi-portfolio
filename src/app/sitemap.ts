@@ -5,12 +5,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // ─── Tipos y type guards ───────────────────────────────────────────────────────
-type ProjectLike = {
+/*type ProjectLike = {
   slug?: unknown;
   url?: unknown;
   updatedAt?: unknown;
   date?: unknown;
-};
+};*/
 
 type ProjectEntry = { slug: string; lastMod?: Date };
 

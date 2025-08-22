@@ -22,7 +22,6 @@ const components = { h2: H2, p: P, pre: Pre, code: Code };
 
 export function MDXRenderer({ source }: { source: string }) {
   return (
-    // @ts-expect-error: MDXRemote typing RSC
     <MDXRemote
       source={source}
       options={{
