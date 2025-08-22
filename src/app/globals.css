@@ -1,0 +1,29 @@
+@import "tailwindcss";
+/*@import "tailwindcss/typography";*/
+
+:root{
+  --bg: #ffffff;
+  --fg: #0b0b0c;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --brand: #4f46e5;
+  --brand-600: #4338ca;
+}
+
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+}
+
+#mobile-menu {
+  transform-origin: top;
+  transition: transform .14s ease, opacity .14s ease;
+}

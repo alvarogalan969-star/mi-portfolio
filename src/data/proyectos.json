@@ -1,0 +1,33 @@
+{
+  "projects": [
+    {
+      "slug": "portfolio-v1",
+      "title": "Portfolio v1",
+      "summary": "Primera versi\u00f3n del portfolio con Next.js y Tailwind.",
+      "tags": [
+        "nextjs",
+        "tailwind",
+        "seo"
+      ],
+      "repoUrl": "https://github.com/tu-usuario/portfolio-v1",
+      "demoUrl": "https://example.com",
+      "cover": "/images/proyectos/portfolio-v1.png",
+      "updatedAt": "2025-08-21",
+      "createdAt": "2025-08-01"
+    },
+    {
+      "slug": "ui-kit",
+      "title": "UI Kit React",
+      "summary": "Librer\u00eda de componentes reutilizables con enfoque accesible.",
+      "tags": [
+        "react",
+        "a11y",
+        "design-system"
+      ],
+      "repoUrl": "https://github.com/tu-usuario/ui-kit",
+      "cover": "/images/proyectos/ui-kit.png",
+      "updatedAt": "2025-08-18",
+      "createdAt": "2025-07-15"
+    }
+  ]
+}

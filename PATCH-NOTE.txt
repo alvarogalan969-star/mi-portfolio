@@ -1,0 +1,1 @@
+// ensure to merge dependencies; add next-mdx-remote, remark-gfm, rehype-slug, rehype-autolink-headings, rehype-highlight, @tailwindcss/typography
