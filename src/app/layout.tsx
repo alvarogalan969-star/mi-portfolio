@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { siteConfig } from '@/config/site.config';
+import Providers from './providers'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -22,11 +23,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
-      <body>
-        <Header />
-        <main className="container mx-auto w-full max-w-6xl px-6 sm:px-8">{children}</main>
-        <Footer />
+    <html lang="es" suppressHydrationWarning>
+      <body className="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+        <Providers>
+          <Header />
+          <main className="container mx-auto w-full max-w-6xl px-6 sm:px-8">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
