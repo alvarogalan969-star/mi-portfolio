@@ -1,50 +1,22 @@
 @import "tailwindcss";
 /*@import "tailwindcss/typography";*/
 
-:root{
-  --bg: #ffffff;
-  --fg: #0b0b0c;
-  --muted: #6b7280;
-  --line: #e5e7eb;
-  --brand: #4f46e5;
-  --brand-600: #4338ca;
-}
-
-.full-bleed {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-}
-
-html, body {
-  height: 100%;
-  background: var(--bg);
-  color: var(--fg);
-  overflow-x: hidden;
-}
-
-#mobile-menu {
-  transform-origin: top;
-  transition: transform .14s ease, opacity .14s ease;
-}
-
 @layer base {
   :root {
-    --bg: 255 255 255;       /* fondo app */
-    --fg: 24 24 27;          /* zinc-900 */
-    --muted: 63 63 70;       /* zinc-700 */
-    --card: 255 255 255;     /* superficies (cards, paneles) */
-    --border: 228 228 231;   /* zinc-200 */
+    --bg: 255 255 255;
+    --fg: 24 24 27;        /* zinc-900 */
+    --muted: 63 63 70;     /* zinc-700 */
+    --card: 255 255 255;
+    --border: 228 228 231; /* zinc-200 */
   }
   .dark {
-    --bg: 9 9 11;            /* zinc-950 */
-    --fg: 244 244 245;       /* zinc-100 */
-    --muted: 212 212 216;    /* zinc-300 */
-    --card: 24 24 27;        /* zinc-900 */
-    --border: 39 39 42;      /* zinc-800 */
+    --bg: 9 9 11;          /* zinc-950 */
+    --fg: 244 244 245;     /* zinc-100 */
+    --muted: 212 212 216;  /* zinc-300 */
+    --card: 24 24 27;      /* zinc-900 */
+    --border: 39 39 42;    /* zinc-800 */
   }
 
-  /* Aplica tokens globalmente */
   html { color-scheme: light dark; }
   body {
     background-color: rgb(var(--bg));
@@ -52,15 +24,44 @@ html, body {
   }
 }
 
-/* === Utilidades de atajo (sin repetir dark:) === */
+/* === Utilidades basadas en tokens === */
 @layer utilities {
   .bg-app     { background-color: rgb(var(--bg)); }
+  .bg-app-80  { background-color: rgb(var(--bg) / 0.8); }
+  .bg-card    { background-color: rgb(var(--card)); }
+  .bg-card-80 { background-color: rgb(var(--card) / 0.8); }
   .text-app   { color: rgb(var(--fg)); }
   .text-muted { color: rgb(var(--muted)); }
-  .bg-card    { background-color: rgb(var(--card)); }
   .border-app { border-color: rgb(var(--border)); }
+}
 
-  /* Versiones translúcidas frecuentes */
-  .bg-app-80  { background-color: rgb(var(--bg) / 0.8); }
-  .bg-card-80 { background-color: rgb(var(--card) / 0.8); }
+/* === Componentes (evito @apply de utilidades propias para no depender del orden) === */
+@layer components {
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 0.75rem; /* xl */
+    padding: 0.75rem 1.25rem; /* py-3 px-5 */
+    font-weight: 600; line-height: 1; transition: .15s;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.05);
+  }
+  .btn-primary {
+    composes: btn;
+    background-color: rgb(79 70 229); /* indigo-600 */
+    color: white;
+  }
+  .btn-primary:hover { background-color: rgb(67 56 202); } /* indigo-700 */
+
+  .btn-outline {
+    composes: btn;
+    border: 1px solid rgb(var(--border));
+    color: rgb(var(--fg));
+    background: transparent;
+  }
+  .btn-outline:hover { background-color: rgb(var(--card)); }
+
+  .link-muted {
+    color: rgb(var(--muted));
+    transition: .15s;
+  }
+  .link-muted:hover { color: rgb(var(--fg)); }
 }

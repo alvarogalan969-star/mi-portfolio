@@ -3,7 +3,7 @@ export default function HomePage() {
     <>
       {/* HERO a todo el ancho */}
       <section className="full-bleed border-b border-zinc-200 bg-gradient-to-b from-zinc-50 to-white">
-        <div className="mx-auto max-w-6xl px-6 py-24 sm:py-28 text-center">
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:py-28 text-center bg-app text-app">
           <p className="uppercase tracking-[0.18em] text-xs text-zinc-500">portfolio</p>
           <h1 className="mt-2 text-5xl sm:text-6xl font-extrabold tracking-tight text-zinc-900">
             Hola, soy{" "}
@@ -29,7 +29,7 @@ export default function HomePage() {
       <section id="proyectos" className="py-20">
         <h2 className="text-3xl font-bold text-zinc-900 text-center mb-12">Proyectos destacados</h2>
         <div className="grid gap-6 sm:grid-cols-2">
-          <article className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+          <article className="rounded-2xl border border-app bg-card p-6 shadow-sm transition hover:shadow-md">
             <h3 className="text-xl font-semibold text-zinc-800">Portfolio Minimalista</h3>
             <p className="mt-2 text-zinc-600">Portfolio con Next.js, rendimiento top y UX limpia.</p>
             <div className="mt-4 flex gap-4 text-sm">
