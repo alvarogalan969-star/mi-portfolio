@@ -1,9 +1,9 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import { siteConfig } from '@/config/site.config';
-import Providers from './providers'
+import "./globals.css";
+import type { Metadata } from "next";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { siteConfig } from "@/config/site.config";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -15,16 +15,21 @@ export const metadata: Metadata = {
     url: siteConfig.siteUrl,
     siteName: siteConfig.name,
     images: [{ url: siteConfig.ogImage }],
-    locale: 'es_ES',
-    type: 'website',
+    locale: "es_ES",
+    type: "website",
   },
-  twitter: { card: 'summary_large_image', title: siteConfig.name, description: siteConfig.description, images: [siteConfig.ogImage] },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+      <body>
         <Providers>
           <Header />
           <main className="container mx-auto w-full max-w-6xl px-6 sm:px-8">

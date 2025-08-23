@@ -27,3 +27,40 @@ html, body {
   transform-origin: top;
   transition: transform .14s ease, opacity .14s ease;
 }
+
+@layer base {
+  :root {
+    --bg: 255 255 255;       /* fondo app */
+    --fg: 24 24 27;          /* zinc-900 */
+    --muted: 63 63 70;       /* zinc-700 */
+    --card: 255 255 255;     /* superficies (cards, paneles) */
+    --border: 228 228 231;   /* zinc-200 */
+  }
+  .dark {
+    --bg: 9 9 11;            /* zinc-950 */
+    --fg: 244 244 245;       /* zinc-100 */
+    --muted: 212 212 216;    /* zinc-300 */
+    --card: 24 24 27;        /* zinc-900 */
+    --border: 39 39 42;      /* zinc-800 */
+  }
+
+  /* Aplica tokens globalmente */
+  html { color-scheme: light dark; }
+  body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--fg));
+  }
+}
+
+/* === Utilidades de atajo (sin repetir dark:) === */
+@layer utilities {
+  .bg-app     { background-color: rgb(var(--bg)); }
+  .text-app   { color: rgb(var(--fg)); }
+  .text-muted { color: rgb(var(--muted)); }
+  .bg-card    { background-color: rgb(var(--card)); }
+  .border-app { border-color: rgb(var(--border)); }
+
+  /* Versiones translúcidas frecuentes */
+  .bg-app-80  { background-color: rgb(var(--bg) / 0.8); }
+  .bg-card-80 { background-color: rgb(var(--card) / 0.8); }
+}
