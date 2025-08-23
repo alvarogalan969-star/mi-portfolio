@@ -66,6 +66,9 @@ importers:
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
+      '@types/mdx':
+        specifier: ^2.0.13
+        version: 2.0.13
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
