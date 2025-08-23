@@ -24,13 +24,11 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="full-bleed sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
-      {/* Contenedor centrado + padding lateral */}
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 sm:h-18 sm:px-8">
+<header className="full-bleed sticky top-0 z-50 border-b border-app bg-app-80 backdrop-blur">      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 sm:h-18 sm:px-8">
         {/* Logo / Marca */}
         <Link
           href="/"
-          className="font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100"
+          className="font-extrabold tracking-tight text-app dark:text-zinc-100"
         >
           Álvaro.dev
           <span className="sr-only">Inicio</span>
@@ -40,19 +38,19 @@ export default function Header() {
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           <Link
             href="/sobre-mi"
-            className="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"
+            className="text-muted hover:text-app dark:text-zinc-300 dark:hover:text-white"
           >
             Sobre mí
           </Link>
           <Link
             href="/proyectos"
-            className="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"
+            className="text-muted hover:text-app dark:text-zinc-300 dark:hover:text-white"
           >
             Proyectos
           </Link>
           <Link
             href="/blog"
-            className="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"
+            className="text-muted hover:text-app dark:text-zinc-300 dark:hover:text-white"
           >
             Blog
           </Link>
@@ -70,7 +68,7 @@ export default function Header() {
         {/* Botón hamburguesa (solo móvil) */}
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-300 bg-white outline-none hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-indigo-300 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-app bg-card outline-none hover:bg-card focus-visible:ring-2 focus-visible:ring-indigo-300 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 md:hidden"
           aria-label="Abrir menú"
           aria-controls="mobile-menu"
           aria-expanded={open}
@@ -78,7 +76,7 @@ export default function Header() {
         >
           {/* Icono hamburguesa / cerrar */}
           <svg
-            className={`h-5 w-5 text-zinc-900 transition dark:text-zinc-100 ${
+            className={`h-5 w-5 text-app transition dark:text-zinc-100 ${
               open ? "hidden" : "block"
             }`}
             xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +92,7 @@ export default function Header() {
             <line x1="3" x2="21" y1="18" y2="18" />
           </svg>
           <svg
-            className={`h-5 w-5 text-zinc-900 transition dark:text-zinc-100 ${
+            className={`h-5 w-5 text-app transition dark:text-zinc-100 ${
               open ? "block" : "hidden"
             }`}
             xmlns="http://www.w3.org/2000/svg"
@@ -126,26 +124,26 @@ export default function Header() {
         aria-hidden={!open}
       >
         <nav
-          className="mx-4 rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl dark:border-zinc-700 dark:bg-zinc-900"
+          className="mx-4 rounded-2xl border border-app bg-card p-2 shadow-xl dark:border-zinc-700 dark:bg-zinc-900"
           role="menu"
         >
           <Link
             href="/sobre-mi"
-            className="block rounded-lg px-4 py-3 text-zinc-800 hover:bg-zinc-50 dark:text-zinc-100 dark:hover:bg-zinc-800"
+            className="block rounded-lg px-4 py-3 text-muted hover:bg-card dark:text-zinc-100 dark:hover:bg-zinc-800"
             role="menuitem"
           >
             Sobre mí
           </Link>
           <Link
             href="/proyectos"
-            className="block rounded-lg px-4 py-3 text-zinc-800 hover:bg-zinc-50 dark:text-zinc-100 dark:hover:bg-zinc-800"
+            className="block rounded-lg px-4 py-3 text-muted hover:bg-card dark:text-zinc-100 dark:hover:bg-zinc-800"
             role="menuitem"
           >
             Proyectos
           </Link>
           <Link
             href="/blog"
-            className="block rounded-lg px-4 py-3 text-zinc-800 hover:bg-zinc-50 dark:text-zinc-100 dark:hover:bg-zinc-800"
+            className="block rounded-lg px-4 py-3 text-muted hover:bg-card dark:text-zinc-100 dark:hover:bg-zinc-800"
             role="menuitem"
           >
             Blog
@@ -159,8 +157,8 @@ export default function Header() {
           </Link>
 
           {/* Ajustes rápidos (tema ahora; idioma después) */}
-          <div className="mt-2 rounded-lg bg-zinc-50 p-2 dark:bg-zinc-800/50">
-            <div className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <div className="mt-2 rounded-lg bg-card p-2 dark:bg-zinc-800/50">
+            <div className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-400">
               Ajustes rápidos
             </div>
             <QuickMenu className="w-full" />

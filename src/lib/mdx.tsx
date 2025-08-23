@@ -15,10 +15,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <img {...props} />
     ),
     pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-      <pre {...props} className={["rounded-lg border border-zinc-200 p-4 bg-zinc-50 overflow-x-auto", props.className].filter(Boolean).join(" ")} />
+      <pre {...props} className={["rounded-lg border border-app p-4 bg-card overflow-x-auto", props.className].filter(Boolean).join(" ")} />
     ),
     code: (props: React.HTMLAttributes<HTMLElement>) => (
-      <code {...props} className={["rounded bg-zinc-100 px-1.5 py-0.5", props.className].filter(Boolean).join(" ")} />
+      <code {...props} className={["rounded bg-card px-1.5 py-0.5", props.className].filter(Boolean).join(" ")} />
     ),
     ...components,
   };

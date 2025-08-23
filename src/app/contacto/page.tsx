@@ -70,10 +70,10 @@ export default function ContactoPage() {
   return (
     <>
       {/* Cabecera full-bleed para dar aire arriba */}
-      <section className="full-bleed border-b border-zinc-200 bg-gradient-to-b from-zinc-50 to-white">
-        <div className="mx-auto max-w-6xl px-6 py-16 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">Contacto</h1>
-          <p className="mt-3 text-zinc-600 max-w-2xl mx-auto">
+      <section className="full-bleed border-b border-app bg-gradient-to-b from-zinc-50 to-white">
+        <div className="mx-auto max-w-6xl px-6 py-16 text-center bg-app text-app">
+          <h1 className="text-4xl font-extrabold tracking-tight text-app">Contacto</h1>
+          <p className="mt-3 text-muted max-w-2xl mx-auto">
             ¿Tienes una idea o proyecto? Escríbeme y te respondo lo antes posible.
           </p>
         </div>
@@ -98,10 +98,10 @@ export default function ContactoPage() {
               </button>
             </div>
           ) : (
-            <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm md:p-8">
+            <div className="rounded-2xl border border-app bg-card p-6 shadow-sm md:p-8">
               <form onSubmit={onSubmit} className="space-y-5" noValidate>
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="name" className="block text-sm font-medium text-muted">
                     Nombre
                   </label>
                   <input
@@ -109,12 +109,12 @@ export default function ContactoPage() {
                     name="name"
                     required
                     placeholder="Tu nombre"
-                    className="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
+                    className="mt-1 w-full rounded-xl border border-app bg-card px-3 py-2 text-app placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="email" className="block text-sm font-medium text-muted">
                     Email
                   </label>
                   <input
@@ -123,12 +123,12 @@ export default function ContactoPage() {
                     type="email"
                     required
                     placeholder="tu@email.com"
-                    className="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
+                    className="mt-1 w-full rounded-xl border border-app bg-card px-3 py-2 text-app placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="subject" className="block text-sm font-medium text-muted">
                     Asunto
                   </label>
                   <input
@@ -136,12 +136,12 @@ export default function ContactoPage() {
                     name="subject"
                     required
                     placeholder="Asunto del mensaje"
-                    className="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
+                    className="mt-1 w-full rounded-xl border border-app bg-card px-3 py-2 text-app placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-zinc-800">
+                  <label htmlFor="message" className="block text-sm font-medium text-muted">
                     Mensaje
                   </label>
                   <textarea
@@ -150,7 +150,7 @@ export default function ContactoPage() {
                     rows={6}
                     required
                     placeholder="Cuéntame tu idea con un poco de contexto…"
-                    className="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
+                    className="mt-1 w-full rounded-xl border border-app bg-card px-3 py-2 text-app placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
                   />
                 </div>
 

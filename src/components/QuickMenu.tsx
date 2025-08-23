@@ -5,7 +5,7 @@ import {useTheme} from 'next-themes';
 
 type Props = {
   className?: string;
-  showLabelOnMdUp?: boolean; // si quieres texto al lado del icono en desktop
+  showLabelOnMdUp?: boolean;
 };
 
 export default function QuickMenu({className = '', showLabelOnMdUp = false}: Props) {
@@ -45,56 +45,52 @@ export default function QuickMenu({className = '', showLabelOnMdUp = false}: Pro
         onClick={() => setOpen(v => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
+        className="group inline-flex items-center gap-2 rounded-lg border border-app bg-card px-3 py-2 text-sm text-muted hover:bg-zinc-200 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
       >
         {/* Icono sol/luna según tema resuelto */}
-        {active === 'dark' ? (
-          <MoonIcon className="h-4 w-4" />
-        ) : active === 'light' ? (
-          <SunIcon className="h-4 w-4" />
-        ) : (
-          <SystemIcon className="h-4 w-4" />
-        )}
+        <span className="h-4 w-4 shrink-0 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
+          {active === 'dark' ? <MoonIcon /> : active === 'light' ? <SunIcon /> : <SystemIcon />}
+        </span>
         {showLabelOnMdUp && <span className="hidden md:inline">Ajustes</span>}
-        <ChevronDown className="h-4 w-4 opacity-70" />
+        <span className="h-4 w-4 shrink-0 opacity-70 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
+          <ChevronDown />
+        </span>
       </button>
 
       {/* Dropdown */}
       <div
         role="menu"
         aria-hidden={!open}
-        className={`absolute right-0 z-[60] mt-2 w-56 origin-top-right rounded-xl border border-zinc-200 bg-white p-1 shadow-xl transition 
-        dark:border-zinc-700 dark:bg-zinc-900 ${open ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'}`}
+        className={`absolute right-0 z-[60] mt-2 w-56 origin-top-right rounded-xl border border-app bg-card p-1 shadow-xl transition 
+        ${open ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'}`}
       >
-        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
           Apariencia
         </div>
         <MenuItem
           active={active === 'light'}
           onClick={() => { setTheme('light'); setOpen(false); }}
-          icon={<SunIcon className="h-4 w-4" />}
+          icon={<SunIcon />}
           label="Claro"
         />
         <MenuItem
           active={active === 'dark'}
           onClick={() => { setTheme('dark'); setOpen(false); }}
-          icon={<MoonIcon className="h-4 w-4" />}
+          icon={<MoonIcon />}
           label="Oscuro"
         />
         <MenuItem
           active={active === 'system'}
           onClick={() => { setTheme('system'); setOpen(false); }}
-          icon={<SystemIcon className="h-4 w-4" />}
+          icon={<SystemIcon />}
           label="Sistema"
         />
 
-        {/* Separador y bloque futuro de idioma */}
-        <div className="my-2 border-t border-zinc-200 dark:border-zinc-700" />
-        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+        <div className="my-2 border-t border-app" />
+        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
           Idioma
         </div>
-        {/* Placeholder por ahora; cuando hagamos i18n lo conectamos */}
-        <MenuItem disabled icon={<GlobeIcon className="h-4 w-4" />} label="Pronto: Español / English" />
+        <MenuItem disabled icon={<GlobeIcon />} label="Pronto: Español / English" />
       </div>
     </div>
   );
@@ -119,18 +115,27 @@ function MenuItem({
       disabled={disabled}
       onClick={onClick}
       role="menuitem"
-      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm
-        ${disabled ? 'opacity-50' : 'hover:bg-zinc-50 dark:hover:bg-zinc-800'}
-        ${active ? 'bg-zinc-100 dark:bg-zinc-800/70 font-medium' : 'text-zinc-800 dark:text-zinc-100'}`}
+      className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors
+        ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-zinc-200 dark:hover:bg-zinc-700'}
+        text-app hover:text-white`}
     >
-      {icon}
+      {/* Wrapper para colorear el SVG en hover */}
+      <span className="h-4 w-4 shrink-0 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
+        {icon}
+      </span>
+
       <span className="flex-1">{label}</span>
-      {active ? <CheckIcon className="h-4 w-4 opacity-80" /> : null}
+
+      {active ? (
+        <span className="h-4 w-4 shrink-0 opacity-80 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
+          <CheckIcon />
+        </span>
+      ) : null}
     </button>
   );
 }
 
-/* ====== Iconos (SVG inline, sin dependencias) ====== */
+/* ====== Iconos (SVG inline) ====== */
 function SunIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
