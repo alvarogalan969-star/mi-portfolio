@@ -1,53 +1,102 @@
-# Mi Portfolio — Next.js (App Router)
 
-Proyecto de portfolio personal con estructura en silo.
+# Mi Portafolio — Next.js + TypeScript
 
-## Requisitos
-- Node 18+ (recomendado 20+)
-- pnpm / npm / yarn
+Una web de portafolio personal hecha con **Next.js (App Router)**, **TypeScript** y **Tailwind CSS**. Incluye páginas de proyectos, contacto por email y animaciones sutiles.
 
-## Primeros pasos
+> **Demo**: _(añade aquí la URL de producción, por ejemplo de Vercel)_
+
+## 🧱 Stack
+
+- **Next.js 14+ (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion** (animaciones)
+- **ESLint + Prettier**
+- **Env vars** para email (p. ej. `CONTACT_TO_EMAIL`)
+
+## ✅ Requisitos
+
+- Node.js 18+
+- pnpm 8+
+
+## 🚀 Empezar
 
 ```bash
-# 1) Instalar dependencias
-pnpm i   # o npm i / yarn
+# Instalar dependencias
+pnpm install
 
-# 2) Scripts útiles
-pnpm dev         # arranca en localhost:3000
-pnpm build       # build de producción
-pnpm start       # ejecuta build
-pnpm lint        # lint del proyecto
-pnpm typecheck   # chequeo de tipos
-pnpm format      # formatea con Prettier
+# Servidor de desarrollo
+pnpm dev
+
+# Linter y tipos
+pnpm lint
+pnpm typecheck
+
+# Build y preview de producción
+pnpm build
+pnpm start
 ```
 
-## Estructura de carpetas (resumen)
-- `src/app` — páginas (App Router)
-- `src/components` — UI y layout
-- `src/content` — contenido (MD/MDX opcional)
-- `src/data` — JSON de proyectos/social
-- `src/lib` — utilidades, validaciones, email
-- `src/styles` — estilos globales
-- `src/config` — configuración del sitio y navegación
+## 🔧 Variables de entorno
 
-## Variables de entorno
+Crea un archivo `.env.local` en la raíz tomando como referencia `.env.example`:
 
-Copia `.env.example` a `.env` y completa valores:
-```env
-# Resend (opcional)
-RESEND_API_KEY=
-MAIL_DOMAIN=
-CONTACT_TO_EMAIL=
-
-# SMTP (alternativa opcional)
-SMTP_HOST=
-SMTP_PORT=587
-SMTP_USER=
-SMTP_PASS=
-SMTP_FROM=
+```
+CONTACT_TO_EMAIL="tu-correo@ejemplo.com"
+# Añade aquí otras credenciales (Resend/SMTP) si las usas en el backend de contacto
 ```
 
-## Notas
-- Este repo usa ESLint (config mínima flat) y Prettier (en package.json).
-- Ajusta `eslint.config.mjs` si añades React/JSX A11y plugins.
-- En `tsconfig.json` está activado `strict` y path alias `@/*` -> `src/*`.
+> **Importante:** Nunca subas `.env.local` al repositorio. Mantén las claves sólo en los entornos de despliegue.
+
+## 🗂️ Estructura recomendada
+
+```
+.
+├─ app/                 # Rutas (App Router), layouts y páginas
+├─ components/          # Componentes UI reutilizables
+├─ lib/                 # Utilidades, hooks, helpers
+├─ public/              # Imágenes y assets estáticos
+├─ styles/              # Tailwind y estilos globales
+├─ package.json
+├─ next.config.mjs
+└─ tailwind.config.ts
+```
+
+## 🧰 Scripts (package.json)
+
+- `dev`: inicia el servidor de desarrollo
+- `build`: genera el build de producción
+- `start`: arranca el servidor con el build generado
+- `lint`: ejecuta ESLint
+- `typecheck`: verifica tipos con TypeScript
+
+## 🌐 Despliegue
+
+La forma más sencilla es **Vercel**:
+
+1. Conecta tu repo.
+2. Configura las variables de entorno (`CONTACT_TO_EMAIL`, etc.).
+3. Deploy automático en cada push a `main`.
+
+También puedes desplegar en otras plataformas (Netlify, Render…) ajustando `build` y `output`.
+
+## ♿ Accesibilidad y SEO
+
+- Texto alternativo en imágenes (`alt`).
+- Un `h1` por página y jerarquía correcta de encabezados.
+- `metadata` en `app/layout.tsx` (title/description/Open Graph).
+- Colores con suficiente contraste y foco visible.
+
+## 🤝 Contribuir
+
+1. Crea una rama: `git checkout -b feat/mi-mejora`
+2. Haz commits claros.
+3. Abre un Pull Request describiendo cambios y screenshots si aplica.
+
+## 📄 Licencia
+
+Este proyecto se publica bajo la licencia **MIT**. Consulta el archivo `LICENSE` si lo incluyes.
+
+---
+
+**Autor:** _(tu nombre y enlaces a redes)_
