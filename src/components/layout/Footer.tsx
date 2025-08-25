@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function Footer() {
   return (
@@ -31,12 +32,7 @@ export default function Footer() {
         {/* Bloque principal */}
         <div className="mt-12 grid gap-10 sm:grid-cols-2">
           <div>
-            <Link
-              href="/"
-              className="font-extrabold tracking-tight text-app"
-            >
-              Álvaro.dev
-            </Link>
+            <Logo className="h-7 w-auto" />
             <p className="mt-3 max-w-sm text-muted">
               Frontend con visión full-stack. UX, accesibilidad y rendimiento.
             </p>

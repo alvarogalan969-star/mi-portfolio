@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import QuickMenu from "../QuickMenu";
+import Logo from "@/components/Logo";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -21,10 +22,7 @@ export default function Header() {
     <header className="full-bleed sticky top-0 z-50 border-b border-app bg-app-80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 sm:h-18 sm:px-8">
         {/* Logo / Marca */}
-        <Link href="/" className="font-extrabold tracking-tight text-app">
-          Álvaro.dev
-          <span className="sr-only">Inicio</span>
-        </Link>
+        <Logo className="h-7 w-auto" />
 
         {/* Navegación desktop */}
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
