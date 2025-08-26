@@ -1,6 +1,9 @@
-import HeroPortrait from '@/components/HeroPortrait';
+import HeroPortrait from "@/components/HeroPortrait";
+import ProyectosEmptyState from "@/components/ProyectosEmptyState";
 
 export default function HomePage() {
+  const isEmpty = true; // cuando tengas proyectos destacados, cámbialo o pinta las cards
+
   return (
     <>
       {/* HERO a todo el ancho */}
@@ -42,27 +45,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PROYECTOS (centrado por el layout) */}
+      {/* PROYECTOS (mismo mensaje que en /proyectos) */}
       <section id="proyectos" className="py-20">
-        <h2 className="text-3xl font-bold text-app text-center mb-12">Proyectos destacados</h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          <article className="rounded-2xl border border-app bg-card p-6 shadow-sm transition hover:shadow-md">
-            <h3 className="text-xl font-semibold text-muted">Portfolio Minimalista</h3>
-            <p className="mt-2 text-muted">Portfolio con Next.js, rendimiento top y UX limpia.</p>
-            <div className="mt-4 flex gap-4 text-sm">
-              <a href="/proyectos/portfolio" className="font-medium text-indigo-600 hover:text-indigo-800">Detalles →</a>
-              <a href="https://github.com/tuusuario/portfolio" target="_blank" rel="noreferrer" className="text-muted hover:text-muted">Código</a>
-            </div>
-          </article>
+        <div className="mx-auto max-w-6xl px-6">
+          <h2 className="text-3xl font-bold text-app text-center md:text-left">Proyectos</h2>
+          <p className="mt-3 text-muted max-w-2xl text-center md:text-left mx-auto md:mx-0">
+            Selección de trabajos con foco en rendimiento y UX. {isEmpty && "Estoy preparando el material…"}
+          </p>
 
-          <article className="rounded-2xl border border-app bg-card p-6 shadow-sm hover:shadow-md transition">
-            <h3 className="text-xl font-semibold text-muted">App de Tareas</h3>
-            <p className="mt-2 text-muted">Aplicación full-stack para gestionar tareas con buenas prácticas.</p>
-            <div className="mt-4 flex gap-4 text-sm">
-              <a href="/proyectos/tareas" className="font-medium text-indigo-600 hover:text-indigo-800">Detalles →</a>
-              <a href="https://github.com/tuusuario/tareas" target="_blank" rel="noreferrer" className="text-muted hover:text-muted">Código</a>
-            </div>
-          </article>
+          <div className="mt-8">
+            {isEmpty ? (
+              <ProyectosEmptyState />
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2">
+                {/* aquí irían tus cards destacadas cuando tengas contenido */}
+              </div>
+            )}
+          </div>
+
+          <div className="mt-6 text-center md:text-left">
+            <a href="/proyectos" className="font-medium text-indigo-600 hover:text-indigo-800">
+              Ver todos los proyectos →
+            </a>
+          </div>
         </div>
       </section>
     </>

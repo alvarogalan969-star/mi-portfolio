@@ -6,6 +6,7 @@ export type Experience = {
     start: string; // ISO o "MMM YYYY"
     end: string;   // "Actual" o fecha
     bullets: string[];
+    logo: string;
     };
 
     export const aboutText: string[] = [
@@ -16,7 +17,7 @@ export type Experience = {
     export const skills = {
     lenguajes: ["HTML", "CSS", "JavaScript", "TypeScript", "Python", "SQL"],
     frameworks: ["React", "Angular"],
-    herramientas: ["Git", "GitHub", "Figma", "Jira", "TestLink", "Illustrator", "Slack", "Discord"],
+    herramientas: ["Git", "GitHub", "Figma", "Jira", "TestLink", "Illustrator", "Slack", "Discord", "Urbo", "Office"],
     metodologias: ["Scrum", "Kanban", "CI/CD básico", "Responsive Design", "Usabilidad"],
     soft: ["Trabajo en equipo", "Liderazgo", "Comunicación", "Organización", "Resolución de problemas", "Pensamiento analítico"],
     idiomas: ["Inglés (B2)"]
@@ -33,7 +34,8 @@ export type Experience = {
         "Desarrollo de aplicaciones para proyectos de Teléfonica.",
         "Integración básica backend: SQL, consumo de APIs y Python puntual.",
         "Coordinación con producto, diseño y QA para alinear entregas y optimizar UX."
-        ]
+        ],
+        logo: "/images/logos/gestion.png"
     },
     {
         company: "Jaippy",
@@ -47,7 +49,8 @@ export type Experience = {
         "Cualificación de leads y traspaso a equipo de ventas.",
         "Registro y seguimiento en herramientas CRM.",
         "Apoyo en planificación de reuniones/demos y sesiones de feedback para mejorar el proceso."
-        ]
+        ],
+        logo: "/images/logos/jaippy.png"
     },
     {
         company: "Jaippy",
@@ -64,7 +67,8 @@ export type Experience = {
         "Integración básica backend: SQL, consumo de APIs y Python puntual.",
         "Definición de roadmap técnico, estimaciones y planificación de sprints.",
         "Coordinación con producto, diseño y QA para alinear entregas y optimizar UX."
-        ]
+        ],
+        logo: "/images/logos/jaippy.png"
     },
     {
         company: "NTT DATA",
@@ -76,7 +80,8 @@ export type Experience = {
         "Pruebas funcionales y de regresión según requisitos.",
         "Diseño/ejecución de casos de prueba y gestión de bugs.",
         "Trabajo en Scrum/Kanban y colaboración estrecha con desarrollo/negocio."
-        ]
+        ],
+        logo: "/images/logos/nttdata.png"
     },
     {
         company: "Optiva Media",
@@ -89,6 +94,7 @@ export type Experience = {
         "Mantenimiento de casos de prueba y scripts de automatización.",
         "Testing en integración continua, reporte/seguimiento de incidencias y mejora de procesos.",
         "Participación en ceremonias ágiles para alinear prioridades."
-        ]
+        ],
+        logo: "/images/logos/optiva.png"
     }
 ];
