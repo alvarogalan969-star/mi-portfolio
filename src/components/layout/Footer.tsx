@@ -34,7 +34,8 @@ export default function Footer() {
           <div>
             <Logo className="h-7 w-auto" />
             <p className="mt-3 max-w-sm text-muted">
-              Frontend con visión full-stack. UX, accesibilidad y rendimiento.
+              Desarrollador front-end en <span className="text-app font-medium">MB3-Gestión</span>. 
+              También construyo proyectos personales de <span className="text-app font-medium">IA</span>,{" "}
             </p>
           </div>
 

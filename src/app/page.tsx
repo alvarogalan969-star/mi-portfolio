@@ -20,7 +20,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="mx-auto md:mx-0 mt-6 max-w-2xl text-lg leading-8 text-muted">
-              Frontend developer con visión full-stack. Experiencias minimalistas, rápidas y accesibles.
+              Frontend developer con experiencia en QA y proyectos para grandes compañías. Actualmente en MB3-Gestión y, además, desarrollando proyectos personales relacionados con IA, automatización y desarrollo web.
             </p>
             <div className="mt-8 flex flex-wrap items-center md:justify-start justify-center gap-3">
               <a

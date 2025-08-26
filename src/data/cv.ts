@@ -10,8 +10,10 @@ export type Experience = {
     };
 
     export const aboutText: string[] = [
-    "Desarrollador front-end con más de dos años de experiencia en desarrollo web y base sólida en QA. He trabajado en proyectos para empresas como Orange, Movistar, Bedrock Streaming y CaixaBank, participando tanto en testing como en desarrollo con tecnologías como HTML, CSS, JavaScript, Angular, React, SQL y Python.",
-    "Actualmente, en MB3, he liderado un equipo de desarrollo en un proyecto creado desde cero, combinando diseño, desarrollo y toma de decisiones técnicas. Trabajo a menudo con metodologías ágiles (Scrum y Kanban) y participo en ceremonias como dailies, sprint plannings, reviews y retrospectives, enfocándome en la calidad del producto y la mejora continua."
+    "Soy desarrollador front-end con más de dos años de experiencia en desarrollo web y una sólida base en QA. A lo largo de mi carrera he participado en proyectos para empresas como Orange, Movistar, Bedrock Streaming y CaixaBank, trabajando tanto en testing como en desarrollo con tecnologías como HTML, CSS, JavaScript, Angular, React, SQL y Python.",
+    "Actualmente formo parte de MB3-Gestión como Analista Programador, donde desarrollo aplicaciones para proyectos de Telefónica, integrando bases de datos con SQL, consumo de APIs y soporte puntual en Python. Además, colaboro estrechamente con producto, diseño y QA para alinear entregas y mejorar la experiencia de usuario.",
+    "En etapas anteriores, en Jaippy, lideré el desarrollo de una aplicación web creada desde cero, combinando análisis, diseño, desarrollo y decisiones técnicas. Allí gestioné un equipo bajo metodologías ágiles (Scrum y Kanban), participando en dailies, plannings, reviews y retrospectives, siempre con foco en la calidad y la mejora continua.",
+    "Además de mi experiencia profesional, desarrollo proyectos personales relacionados con inteligencia artificial, automatización y desarrollo web, explorando nuevas tecnologías y aplicando lo aprendido en contextos prácticos. Estos proyectos me permiten seguir creciendo como desarrollador y mantenerme en constante evolución."
     ];
 
     export const skills = {
