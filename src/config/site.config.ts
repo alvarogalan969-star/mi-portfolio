@@ -10,7 +10,7 @@ export const siteConfig = {
     url: 'https://example.com',
   },
   social: {
-    linkedin: 'https://www.linkedin.com/in/tu-usuario/',
+    linkedin: 'ttps://www.linkedin.com/in/alvarogalanpascual/',
     github: "https://github.com/alvarogalan969-star",
     email: "mailto:hola@tu-dominio.com",
   },

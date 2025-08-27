@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site.config";
 import Providers from "./providers";
-import { Figtree } from "next/font/google"; 
+import { Figtree } from "next/font/google";
 import { jsonLd } from "@/lib/structured-data";
 
 const ogAbsolute =
@@ -25,7 +25,9 @@ const personLd = {
   url: siteConfig.siteUrl,
   image: ogAbsolute,
   description: siteConfig.description,
-  sameAs
+  sameAs,
+  // email en Person (mejor aquí que en sameAs)
+  email: siteConfig.social?.email || undefined,
 };
 
 const webSiteLd = {
@@ -39,7 +41,7 @@ const webSiteLd = {
 
 const figtree = Figtree({
   subsets: ["latin"],
-  variable: "--font-sans", // exportamos a CSS var
+  variable: "--font-sans",
   display: "swap",
 });
 
@@ -65,12 +67,6 @@ export const metadata: Metadata = {
     locale: "es_ES",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [ogAbsolute]
-  },
   alternates: {
     canonical: "/",
     types: { "application/rss+xml": "/feed.xml" },
@@ -78,7 +74,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    // Cambia a false en previews/deploys temporales
     nocache: false,
     googleBot: {
       index: true,
@@ -91,8 +86,17 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const gh = siteConfig.social?.github;
+  const li = siteConfig.social?.linkedin;
+  const mail = siteConfig.social?.email; // ej: "mailto:hola@tu-dominio.com"
+
   return (
     <html lang="es" suppressHydrationWarning className={figtree.variable}>
+      <head>
+        {gh && <link rel="me" href={gh} />}
+        {li && <link rel="me" href={li} />}
+        {mail && <link rel="me" href={mail} />}
+      </head>
       <body className="font-sans">
         <Providers>
           <Header />
@@ -102,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </Providers>
 
+        {/* JSON-LD global */}
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(personLd)} />
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(webSiteLd)} />
       </body>

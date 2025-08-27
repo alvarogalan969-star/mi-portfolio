@@ -58,7 +58,7 @@ export default function Footer() {
             {/* Sociales */}
             <div className="mt-5 flex justify-start gap-4 sm:justify-end">
               <a
-                href="https://github.com/tuusuario"
+                href="https://github.com/alvarogalan969-star"
                 aria-label="GitHub"
                 target="_blank"
                 rel="noreferrer"
@@ -75,7 +75,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://www.linkedin.com/in/tuusuario"
+                href="https://www.linkedin.com/in/alvarogalanpascual/"
                 aria-label="LinkedIn"
                 target="_blank"
                 rel="noreferrer"
