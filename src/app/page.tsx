@@ -34,7 +34,14 @@ export default function HomePage() {
             <p className="uppercase tracking-[0.18em] text-xs text-muted">portfolio</p>
             <h1 className="mt-2 text-5xl sm:text-6xl font-extrabold tracking-tight text-app">
               Hola, soy{" "}
-              <span className="bg-gradient-to-r from-indigo-600 to-teal-500 bg-clip-text text-transparent">
+              <span
+                className="
+                  bg-gradient-to-r from-indigo-600 to-teal-500
+                  bg-clip-text text-transparent
+                  [-webkit-text-fill-color:transparent]
+                  [-webkit-background-clip:text]
+                "
+              >
                 Álvaro
               </span>
             </h1>

@@ -33,6 +33,11 @@
   .text-app   { color: rgb(var(--fg)); }
   .text-muted { color: rgb(var(--muted)); }
   .border-app { border-color: rgb(var(--border)); }
+
+  .text-gradient-wk {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 /* === Componentes (evito @apply de utilidades propias para no depender del orden) === */
