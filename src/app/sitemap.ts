@@ -8,7 +8,7 @@ import matter from "gray-matter";
 // Aseguramos entorno Node (usamos fs)
 export const runtime = "nodejs";
 // Revalida el sitemap cada 24h (ajusta si quieres)
-export const revalidate = 60 * 60 * 24;
+export const revalidate = 86400;
 
 type ProjectEntry = { slug: string; lastMod?: Date };
 
