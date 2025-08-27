@@ -2,12 +2,34 @@ import type { Metadata } from "next";
 import { aboutText, skills, timeline } from "@/data/cv";
 import Timeline from "@/components/Timeline";
 import { SkillChips } from "@/components/SkillChips";
+import { jsonLd } from "@/lib/structured-data";
+import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
   title: "Sobre mí",
   description:
     "Desarrollador frontend con experiencia en QA y proyectos para grandes compañías. Skills en React, Next.js, TypeScript y SEO técnico.",
   alternates: { canonical: "/sobre-mi" },
+};
+
+const aboutUrl = new URL("/sobre-mi", siteConfig.siteUrl).toString();
+
+const aboutLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Sobre mí",
+  url: aboutUrl,
+  mainEntity: { "@type": "Person", name: siteConfig.author.name, url: siteConfig.siteUrl },
+};
+
+// (Opcional) migas de pan
+const breadcrumbsLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: siteConfig.siteUrl },
+    { "@type": "ListItem", position: 2, name: "Sobre mí", item: aboutUrl },
+  ],
 };
 
 export default function SobreMiPage() {
@@ -44,6 +66,9 @@ export default function SobreMiPage() {
           <Timeline items={timeline} />
         </section>
       </main>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(aboutLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbsLd)} />
     </>
   );
 }

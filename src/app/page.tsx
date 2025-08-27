@@ -1,12 +1,23 @@
 import HeroPortrait from "@/components/HeroPortrait";
 import ProyectosEmptyState from "@/components/ProyectosEmptyState";
 import Link from "next/link";
+import { jsonLd } from "@/lib/structured-data";
+import { siteConfig } from "@/config/site.config";
 
 export const metadata = {
   title: "Inicio",
   description:
     "Álvaro Galán, desarrollador frontend especializado en React, Next.js y SEO técnico. Portafolio con proyectos centrados en rendimiento, accesibilidad y UX.",
   alternates: { canonical: "/" },
+};
+
+const homeLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Inicio",
+  url: siteConfig.siteUrl,
+  description: "Portafolio y proyectos de " + siteConfig.author.name,
+  isPartOf: { "@type": "WebSite", url: siteConfig.siteUrl },
 };
 
 export default function HomePage() {
@@ -78,6 +89,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd(homeLd)}
+      />
     </>
   );
 }

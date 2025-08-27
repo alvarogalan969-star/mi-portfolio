@@ -1,10 +1,32 @@
 import ContactForm from "@/components/contact/ContactForm";
+import { jsonLd } from "@/lib/structured-data";
+import { siteConfig } from "@/config/site.config";
 
 export const metadata = {
   title: "Contacto",
   description:
     "Escríbeme para colaborar en desarrollo frontend, optimización de rendimiento y SEO técnico. Respondo pronto.",
   alternates: { canonical: "/contacto" },
+};
+
+const contactUrl = new URL("/contacto", siteConfig.siteUrl).toString();
+
+const contactLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contacto",
+  url: contactUrl,
+  about: { "@type": "Person", name: siteConfig.author.name, url: siteConfig.siteUrl },
+};
+
+// (Opcional) Migas de pan
+const breadcrumbsLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: siteConfig.siteUrl },
+    { "@type": "ListItem", position: 2, name: "Contacto", item: contactUrl },
+  ],
 };
 
 export default function ContactoPage() {
@@ -26,6 +48,9 @@ export default function ContactoPage() {
           <ContactForm />
         </div>
       </section>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(contactLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbsLd)} />
     </>
   );
 }

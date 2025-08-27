@@ -1,11 +1,33 @@
 import type { Metadata } from "next";
 import ProyectosEmptyState from "@/components/ProyectosEmptyState";
+import { jsonLd } from "@/lib/structured-data";
+import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
   title: "Proyectos",
   description:
     "Proyectos frontend con React y Next.js, optimizados en rendimiento, accesibilidad y SEO. Casos reales, UI limpia y buenas prácticas.",
   alternates: { canonical: "/proyectos" },
+};
+
+const proyectosUrl = new URL("/proyectos", siteConfig.siteUrl).toString();
+
+const proyectosLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Proyectos",
+  url: proyectosUrl,
+  isPartOf: { "@type": "WebSite", url: siteConfig.siteUrl },
+  about: { "@type": "Person", name: siteConfig.author.name, url: siteConfig.siteUrl },
+};
+
+const breadcrumbsLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: siteConfig.siteUrl },
+    { "@type": "ListItem", position: 2, name: "Proyectos", item: proyectosUrl },
+  ],
 };
 
 export default function ProyectosPage() {
@@ -35,6 +57,9 @@ export default function ProyectosPage() {
           </div>
         )}
       </section>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(proyectosLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbsLd)} />
     </>
   );
 }
