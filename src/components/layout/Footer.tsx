@@ -92,7 +92,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:alvarogalan969@gmail.com"
+                href="mailto:alvarogalan969@gmail.com?subject=Contacto%20desde%20la%20web&body=Hola%20Álvaro%2C%20te%20escribo%20desde%20tu%20portafolio."
                 aria-label="Email"
                 className="group inline-flex h-10 w-10 items-center justify-center rounded-lg border border-app hover:bg-card"
               >
