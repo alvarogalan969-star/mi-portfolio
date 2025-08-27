@@ -92,7 +92,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:tu@email.com"
+                href="mailto:alvarogalan969@gmail.com"
                 aria-label="Email"
                 className="group inline-flex h-10 w-10 items-center justify-center rounded-lg border border-app hover:bg-card"
               >
