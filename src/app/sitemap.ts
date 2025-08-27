@@ -1,25 +1,23 @@
 // src/app/sitemap.ts
-import type { MetadataRoute } from 'next';
-import { siteConfig } from '@/config/site.config';
-import fs from 'node:fs';
-import path from 'node:path';
+import type { MetadataRoute } from "next";
+import { siteConfig } from "@/config/site.config";
+import fs from "node:fs";
+import path from "node:path";
+import matter from "gray-matter";
 
-// ─── Tipos y type guards ───────────────────────────────────────────────────────
-/*type ProjectLike = {
-  slug?: unknown;
-  url?: unknown;
-  updatedAt?: unknown;
-  date?: unknown;
-};*/
+// Aseguramos entorno Node (usamos fs)
+export const runtime = "nodejs";
+// Revalida el sitemap cada 24h (ajusta si quieres)
+export const revalidate = 60 * 60 * 24;
 
 type ProjectEntry = { slug: string; lastMod?: Date };
 
 function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === 'object' && v !== null;
+  return typeof v === "object" && v !== null;
 }
 
 function toDateSafe(v: unknown): Date | undefined {
-  if (typeof v === 'string' || v instanceof Date) {
+  if (typeof v === "string" || v instanceof Date) {
     const d = new Date(v);
     return Number.isNaN(d.getTime()) ? undefined : d;
   }
@@ -30,17 +28,17 @@ function parseProject(obj: unknown): ProjectEntry | null {
   if (!isRecord(obj)) return null;
 
   const slug =
-    typeof obj.slug === 'string'
+    typeof obj.slug === "string"
       ? obj.slug
-      : typeof obj.url === 'string'
-      ? obj.url
-      : '';
+      : typeof (obj as Record<string, unknown>).url === "string"
+      ? ((obj as Record<string, unknown>).url as string)
+      : "";
 
   if (!slug) return null;
 
   const lastMod =
-    toDateSafe(obj.updatedAt) ??
-    toDateSafe(obj.date);
+    toDateSafe((obj as Record<string, unknown>).updatedAt) ??
+    toDateSafe((obj as Record<string, unknown>).date);
 
   return { slug, lastMod };
 }
@@ -50,21 +48,27 @@ function normalizeProjects(input: unknown): ProjectEntry[] {
   if (Array.isArray(input)) {
     return input.map(parseProject).filter((v): v is ProjectEntry => v !== null);
   }
-
   if (isRecord(input) && Array.isArray((input as Record<string, unknown>).projects)) {
     const list = (input as { projects: unknown[] }).projects;
     return list.map(parseProject).filter((v): v is ProjectEntry => v !== null);
   }
-
   return [];
 }
+
+type BlogFrontMatter = {
+  title?: string;
+  date?: string | Date;
+  updatedAt?: string | Date;
+  excerpt?: string;
+  cover?: string;
+};
 
 // ─── Lectura de datos locales ──────────────────────────────────────────────────
 function readProjectSlugs(): ProjectEntry[] {
   try {
-    const file = path.join(process.cwd(), 'src', 'data', 'proyectos.json');
+    const file = path.join(process.cwd(), "src", "data", "proyectos.json");
     if (!fs.existsSync(file)) return [];
-    const raw = fs.readFileSync(file, 'utf8');
+    const raw = fs.readFileSync(file, "utf8");
     const json = JSON.parse(raw) as unknown;
     return normalizeProjects(json);
   } catch {
@@ -74,16 +78,23 @@ function readProjectSlugs(): ProjectEntry[] {
 
 function readBlogSlugs(): ProjectEntry[] {
   try {
-    const dir = path.join(process.cwd(), 'src', 'content', 'blog');
+    const dir = path.join(process.cwd(), "src", "content", "blog");
     if (!fs.existsSync(dir)) return [];
     const entries = fs
       .readdirSync(dir, { withFileTypes: true })
       .filter((d) => d.isFile() && /\.(md|mdx)$/i.test(d.name))
       .map((d) => {
         const file = path.join(dir, d.name);
+        const raw = fs.readFileSync(file, "utf8");
         const stat = fs.statSync(file);
-        const slug = d.name.replace(/\.(md|mdx)$/i, '');
-        return { slug, lastMod: stat.mtime } satisfies ProjectEntry;
+
+        // Preferimos fechas del front-matter si existen:
+        const fm = matter(raw);
+        const data = fm.data as Partial<BlogFrontMatter>;
+        const fmDate = toDateSafe(data.updatedAt) ?? toDateSafe(data.date);
+
+        const slug = d.name.replace(/\.(md|mdx)$/i, "");
+        return { slug, lastMod: fmDate ?? stat.mtime } as ProjectEntry;
       });
     return entries;
   } catch {
@@ -93,28 +104,36 @@ function readBlogSlugs(): ProjectEntry[] {
 
 // ─── Sitemap ───────────────────────────────────────────────────────────────────
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = siteConfig.siteUrl.replace(/\/$/, '');
+  // Guard sencillo para no publicar example.com por error
+  if (!siteConfig.siteUrl || /example\.com\/?$/.test(siteConfig.siteUrl)) {
+    // En producción podrías lanzar un error para evitar desplegar mal:
+    // throw new Error("siteConfig.siteUrl debe apuntar a tu dominio real");
+    // En local, devolvemos un sitemap vacío para evitar ruido:
+    return [];
+  }
+
+  const base = siteConfig.siteUrl.replace(/\/$/, "");
   const now = new Date();
 
   const baseEntries: MetadataRoute.Sitemap = [
-    { url: `${base}/`,          lastModified: now, changeFrequency: 'weekly',  priority: 1 },
-    { url: `${base}/sobre-mi`,  lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/proyectos`, lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
-    { url: `${base}/blog`,      lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${base}/contacto`,  lastModified: now, changeFrequency: 'yearly',  priority: 0.7 },
+    { url: `${base}/`,          lastModified: now, changeFrequency: "weekly",  priority: 1 },
+    { url: `${base}/sobre-mi`,  lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/proyectos`, lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${base}/blog`,      lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
+    { url: `${base}/contacto`,  lastModified: now, changeFrequency: "yearly",  priority: 0.7 },
   ];
 
   const projects = readProjectSlugs().map(({ slug, lastMod }) => ({
     url: `${base}/proyectos/${slug}`,
     lastModified: lastMod ?? now,
-    changeFrequency: 'monthly' as const,
+    changeFrequency: "monthly" as const,
     priority: 0.8,
   }));
 
   const posts = readBlogSlugs().map(({ slug, lastMod }) => ({
     url: `${base}/blog/${slug}`,
     lastModified: lastMod ?? now,
-    changeFrequency: 'weekly' as const,
+    changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 

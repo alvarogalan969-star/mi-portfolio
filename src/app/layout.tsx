@@ -72,7 +72,8 @@ export const metadata: Metadata = {
     images: [ogAbsolute]
   },
   alternates: {
-    canonical: "/",                         // Se sobreescribe por página si hace falta
+    canonical: "/",
+    types: { "application/rss+xml": "/feed.xml" },
   },
   robots: {
     index: true,
