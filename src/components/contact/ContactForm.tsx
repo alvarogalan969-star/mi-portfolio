@@ -9,7 +9,11 @@ type ContactPayload = {
     email: string;
     subject: string;
     message: string;
-    company?: string; // honeypot
+};
+
+type ContactResponse = {
+    ok: boolean;
+    error?: string;
 };
 
 function toStr(v: FormDataEntryValue | null | undefined) {
@@ -22,7 +26,7 @@ export default function ContactForm() {
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        if (status === "sending") return; // evita doble submit
+        if (status === "sending") return;
         setStatus("sending");
         setError(null);
 
@@ -34,12 +38,17 @@ export default function ContactForm() {
         email: toStr(formData.get("email")),
         subject: toStr(formData.get("subject")),
         message: toStr(formData.get("message")),
-        company: toStr(formData.get("company")) || undefined,
         };
 
-        // Honeypot: si está relleno, asumimos bot y "OK" silencioso
-        if (data.company) {
-        setStatus("success");
+        // Validación mínima en cliente
+        if (!data.name.trim() || !data.email.trim() || !data.message.trim()) {
+        setError("Por favor, completa nombre, email y mensaje.");
+        setStatus("error");
+        return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+        setError("Email no válido.");
+        setStatus("error");
         return;
         }
 
@@ -50,13 +59,15 @@ export default function ContactForm() {
             body: JSON.stringify(data),
         });
 
-        if (!res.ok) {
-            try {
-            const body = (await res.json()) as { message?: string };
-            setError(body?.message || "No se pudo enviar el mensaje.");
-            } catch {
-            setError("No se pudo enviar el mensaje.");
-            }
+        let payload: ContactResponse | null = null;
+        try {
+            payload = (await res.json()) as ContactResponse;
+        } catch {
+            // La respuesta podría no ser JSON (poco probable), lo ignoramos.
+        }
+
+        if (!res.ok || !payload?.ok) {
+            setError(payload?.error || "No se pudo enviar el mensaje.");
             setStatus("error");
             return;
         }
@@ -161,22 +172,6 @@ export default function ContactForm() {
                     aria-describedby={status === "error" ? "contact-error" : undefined}
                     className="mt-1 w-full rounded-xl border border-app bg-card px-3 py-2 text-app placeholder-zinc-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
                 />
-                </div>
-
-                {/* Honeypot accesible para bots (no usar display:none) */}
-                <div
-                style={{
-                    position: "absolute",
-                    left: "-10000px",
-                    top: "auto",
-                    width: 1,
-                    height: 1,
-                    overflow: "hidden",
-                }}
-                aria-hidden="true"
-                >
-                <label htmlFor="company">Empresa</label>
-                <input id="company" name="company" tabIndex={-1} autoComplete="off" />
                 </div>
 
                 {/* Botón de enviar */}
