@@ -9,7 +9,8 @@ export default function HeroPortrait() {
             width={760}
             height={760}
             priority
-            sizes="(max-width: 640px) 80vw, 380px"
+            fetchPriority="high"    
+            sizes="(min-width: 768px) 50vw, 100vw" 
             className="w-full h-auto rounded-2xl shadow-xl ring-1 ring-black/5"
         />
         </div>
