@@ -1,11 +1,12 @@
-// app/sobre-mi/page.tsx
+import type { Metadata } from "next";
 import { aboutText, skills, timeline } from "@/data/cv";
 import Timeline from "@/components/Timeline";
 import { SkillChips } from "@/components/SkillChips";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Sobre mí",
-  description: "Perfil, habilidades y experiencia.",
+  description:
+    "Desarrollador frontend con experiencia en QA y proyectos para grandes compañías. Skills en React, Next.js, TypeScript y SEO técnico.",
   alternates: { canonical: "/sobre-mi" },
 };
 
@@ -25,8 +26,8 @@ export default function SobreMiPage() {
       </section>
 
       <main className="mx-auto max-w-6xl px-6 py-16 space-y-12">
-        <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-app">Skills</h2>
+        <section className="space-y-6" aria-labelledby="skills-heading">
+          <h2 id="skills-heading" className="text-2xl font-semibold text-app">Skills</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             <SkillChips title="Lenguajes" items={skills.lenguajes} />
             <SkillChips title="Frameworks" items={skills.frameworks} />
@@ -37,8 +38,8 @@ export default function SobreMiPage() {
           </div>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-app">Experiencia</h2>
+        <section className="space-y-4" aria-labelledby="experience-heading">
+          <h2 id="experience-heading" className="text-2xl font-semibold text-app">Experiencia</h2>
           <p className="text-sm text-muted">Pulsa en cada experiencia para ver las responsabilidades del puesto.</p>
           <Timeline items={timeline} />
         </section>

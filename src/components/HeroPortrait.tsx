@@ -5,7 +5,7 @@ export default function HeroPortrait() {
         <div className="relative w-full max-w-[320px] sm:max-w-[380px] mx-auto">
         <Image
             src="/images/alvaro_pixar.png"
-            alt="Álvaro Galán — Desarrollador web"
+            alt="Retrato de Álvaro Galán, desarrollador frontend"
             width={760}
             height={760}
             priority

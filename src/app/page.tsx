@@ -1,5 +1,13 @@
 import HeroPortrait from "@/components/HeroPortrait";
 import ProyectosEmptyState from "@/components/ProyectosEmptyState";
+import Link from "next/link";
+
+export const metadata = {
+  title: "Inicio",
+  description:
+    "Álvaro Galán, desarrollador frontend especializado en React, Next.js y SEO técnico. Portafolio con proyectos centrados en rendimiento, accesibilidad y UX.",
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
   const isEmpty = true; // cuando tengas proyectos destacados, cámbialo o pinta las cards
@@ -23,18 +31,18 @@ export default function HomePage() {
               Frontend developer con experiencia en QA y proyectos para grandes compañías. Actualmente en MB3-Gestión y, además, desarrollando proyectos personales relacionados con IA, automatización y desarrollo web.
             </p>
             <div className="mt-8 flex flex-wrap items-center md:justify-start justify-center gap-3">
-              <a
+              <Link
                 href="/proyectos"
                 className="inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-sm"
               >
                 Ver proyectos
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contacto"
                 className="inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold border border-app text-muted hover:bg-card transition"
               >
                 Contactar
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -64,9 +72,9 @@ export default function HomePage() {
           </div>
 
           <div className="mt-6 text-center md:text-left">
-            <a href="/proyectos" className="font-medium text-indigo-600 hover:text-indigo-800">
+            <Link href="/proyectos" className="font-medium text-indigo-600 hover:text-indigo-800">
               Ver todos los proyectos →
-            </a>
+            </Link>
           </div>
         </div>
       </section>

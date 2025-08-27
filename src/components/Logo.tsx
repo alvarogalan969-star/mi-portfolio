@@ -7,7 +7,7 @@ import { useResolvedTheme } from "@/lib/useResolvedTheme";
 
 export default function Logo({
   className = "h-7",  // controlamos ALTURA por CSS
-  priority = true,
+  priority = false,
 }: { className?: string; priority?: boolean }) {
   const resolved = useResolvedTheme();
   const [mounted, setMounted] = useState(false);
@@ -28,7 +28,7 @@ export default function Logo({
     <Link href="/" aria-label="Ir a inicio" className="inline-flex items-center">
       <Image
         src={src}
-        alt="Logotipo Álvaro.dev"
+        alt="Álvaro Galán — Desarrollador Frontend"
         width={112}
         height={28}
         priority={priority}

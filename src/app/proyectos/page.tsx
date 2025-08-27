@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import ProyectosEmptyState from "@/components/ProyectosEmptyState";
-// Si tienes el loader, úsalo. Si no, deja comentada la línea siguiente.
-// import { getProjects } from "@/lib/content/projects";
 
 export const metadata: Metadata = {
   title: "Proyectos",
-  description: "Selección de proyectos y trabajos. Próximamente.",
+  description:
+    "Proyectos frontend con React y Next.js, optimizados en rendimiento, accesibilidad y SEO. Casos reales, UI limpia y buenas prácticas.",
   alternates: { canonical: "/proyectos" },
 };
 
