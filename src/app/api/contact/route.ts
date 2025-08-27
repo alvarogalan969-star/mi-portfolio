@@ -1,5 +1,9 @@
+// app/api/contact/route.ts
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+
+export const runtime = "nodejs";           // ✅ usar runtime Node
+// export const dynamic = "force-dynamic"; // opcional: evita intentos de prerender
 
 type Payload = {
   nombre: string;
@@ -7,8 +11,6 @@ type Payload = {
   mensaje: string;
   company?: string; // honeypot
 };
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 function isEmail(str: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
@@ -25,6 +27,26 @@ function escapeHtml(str: string) {
 
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    const mailDomain = process.env.MAIL_DOMAIN;
+    const to = process.env.CONTACT_TO_EMAIL;
+
+    // ✅ Valida env vars (si falta algo, no seguimos)
+    if (!apiKey || !mailDomain || !to) {
+      console.error("ENV MISSING", {
+        hasApiKey: Boolean(apiKey),
+        hasMailDomain: Boolean(mailDomain),
+        hasTo: Boolean(to),
+      });
+      return NextResponse.json(
+        { ok: false, error: "Config del servidor incompleta." },
+        { status: 500 }
+      );
+    }
+
+    // ✅ Instanciar dentro del handler (no en top-level)
+    const resend = new Resend(apiKey);
+
     const data = (await req.json()) as Payload;
 
     // Honeypot anti-spam
@@ -36,6 +58,7 @@ export async function POST(req: Request) {
     const email = (data?.email ?? "").trim();
     const mensaje = (data?.mensaje ?? "").trim();
 
+    // Validaciones
     if (!nombre || !email || !mensaje) {
       return NextResponse.json(
         { ok: false, error: "Faltan campos obligatorios." },
@@ -49,9 +72,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const to = process.env.CONTACT_TO_EMAIL!;
-    const mailDomain = process.env.MAIL_DOMAIN!;
-    const from = `Álvaro <contact@${mailDomain}>`; // usa tu dominio verificado
+    const from = `Álvaro <contact@${mailDomain}>`;
     const subject = `Nuevo mensaje desde el portfolio: ${nombre}`;
 
     const text = `
@@ -80,7 +101,7 @@ ${mensaje}
       subject,
       text,
       html,
-      replyTo: email, // podrás responderle directo desde tu bandeja
+      replyTo: email, // ✅ camelCase correcto
     });
 
     if (error) {
