@@ -63,49 +63,50 @@
 
     "Projects": {
         "title": "Proyectos",
-        "empty": "Aún no hay proyectos para mostrar.",
+        "description": "Proyectos frontend con React y Next.js, optimizados en rendimiento, accesibilidad y SEO. Casos reales, UI limpia y buenas prácticas.",
+        "empty": "Estoy preparando el material…",
+        "lead": "Selección de trabajos con foco en rendimiento y UX.",
         "filters": {
-        "all": "Todos",
-        "tag": "Etiqueta",
-        "search": "Buscar proyectos…"
+            "all": "Todos",
+            "tag": "Etiqueta",
+            "search": "Buscar proyectos…"
         },
         "card": {
-        "demo": "Demo",
-        "code": "Código",
-        "ariaDemo": "Ver demo de {title}",
-        "ariaCode": "Ver código de {title}"
+            "demo": "Demo",
+            "code": "Código",
+            "ariaDemo": "Ver demo de {title}",
+            "ariaCode": "Ver código de {title}"
         },
         "grid": {
-        "more": "Ver más",
-        "less": "Ver menos"
+            "more": "Ver más",
+            "less": "Ver menos"
+        },
+        "detail": {
+            "notFound": "Proyecto \"{slug}\" no encontrado.",
+            "descriptionFallback": "Proyecto del portfolio."
         }
     },
 
     "Contact": {
         "title": "Contacto",
-        "description": "¿Tienes una idea o proyecto? Escríbeme y hablamos.",
+        "description": "¿Tienes una idea o proyecto? Escríbeme y te respondo lo antes posible.",
         "form": {
-        "name": {
-            "label": "Nombre",
-            "placeholder": "Tu nombre"
-        },
-        "email": {
-            "label": "Email",
-            "placeholder": "tu@email.com"
-        },
-        "message": {
-            "label": "Mensaje",
-            "placeholder": "Cuéntame en qué puedo ayudarte…"
-        },
-        "submit": "Enviar",
-        "submitting": "Enviando…",
-        "success": "¡Mensaje enviado!",
-        "error": "No se ha podido enviar. Vuelve a intentarlo."
+            "name": { "label": "Nombre", "placeholder": "Tu nombre" },
+            "email": { "label": "Email", "placeholder": "tu@email.com" },
+            "subject": { "label": "Asunto", "placeholder": "Asunto del mensaje" },
+            "message": { "label": "Mensaje", "placeholder": "Cuéntame tu idea con un poco de contexto…" },
+            "submit": "Enviar",
+            "submitting": "Enviando…",
+            "success": "¡Mensaje enviado!",
+            "successLead": "Gracias por escribir. Te responderé muy pronto.",
+            "sendAnother": "Enviar otro mensaje",
+            "error": "No se pudo enviar el mensaje."
         },
         "validation": {
-        "nameMin": "El nombre debe tener al menos 2 caracteres.",
-        "emailInvalid": "Introduce un correo válido.",
-        "messageMin": "El mensaje debe tener al menos 10 caracteres."
+            "requiredAll": "Por favor, completa nombre, email y mensaje.",
+            "nameMin": "El nombre debe tener al menos 2 caracteres.",
+            "emailInvalid": "Introduce un correo válido.",
+            "messageMin": "El mensaje debe tener al menos 10 caracteres."
         }
     },
 
@@ -116,22 +117,51 @@
     },
 
     "Blog": {
-    "title": "Blog",
-    "description": "Notas y artículos sobre frontend, UX/UI y performance. React, Next.js, accesibilidad y SEO técnico.",
-    "descriptionLd": "Notas y artículos sobre frontend, UX/UI y performance de Álvaro Galán.",
-    "lead": "Notas de frontend, UX/UI y performance.",
-    "post": {
-        "title": "Artículo: {slug}",
-        "preparingDesc": "Artículo en preparación.",
-        "preparingLead": "Contenido próximamente.",
-        "preparingHint": "Estoy preparando este artículo. Mientras tanto, vuelve al",
-        "backToBlog": "blog"
+        "title": "Blog",
+        "description": "Notas y artículos sobre frontend, UX/UI y performance. React, Next.js, accesibilidad y SEO técnico.",
+        "descriptionLd": "Notas y artículos sobre frontend, UX/UI y performance de Álvaro Galán.",
+        "lead": "Notas de frontend, UX/UI y performance.",
+        "post": {
+            "title": "Artículo: {slug}",
+            "preparingDesc": "Artículo en preparación.",
+            "preparingLead": "Contenido próximamente.",
+            "preparingHint": "Estoy preparando este artículo. Mientras tanto, vuelve al",
+            "backToBlog": "blog"
         },
-    "empty": {
-        "title": "Próximamente",
-        "description": "Estoy preparando los primeros artículos.",
-        "cta": "Escríbeme",
-        "suffix": "si te interesa un tema."
-    }
+        "empty": {
+            "title": "Próximamente",
+            "description": "Estoy preparando los primeros artículos.",
+            "cta": "Escríbeme",
+            "suffix": "si te interesa un tema."
+        }
+    },
+    "About": {
+        "title": "Sobre mí",
+        "description": "Desarrollador frontend con experiencia en QA y proyectos para grandes compañías. Skills en React, Next.js, TypeScript y SEO técnico.",
+        "skills": {
+            "title": "Skills",
+            "categories": {
+                "languages": "Lenguajes",
+                "frameworks": "Frameworks",
+                "tools": "Herramientas",
+                "methods": "Metodologías",
+                "soft": "Soft skills",
+                "i18nLanguages": "Idiomas"
+            }
+        },
+        "experience": {
+            "title": "Experiencia",
+            "hint": "Pulsa en cada experiencia para ver las responsabilidades del puesto."
+        }
+    },
+    "Skills": {
+        "title": "Skills",
+        "description": "Competencias y tecnologías clave.",
+        "items": ["React / Next.js", "TypeScript", "Tailwind CSS"]
+    },
+    "CV": {
+        "title": "Currículum",
+        "description": "CV online con experiencia, roles y habilidades.",
+        "lead": "CV online (placeholder)."
     }
 }

@@ -1,72 +1,106 @@
+// src/app/[locale]/about/page.tsx
 import type { Metadata } from "next";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { getPathname, type Locale } from "@/i18n/routing";
+
 import { aboutText, skills, timeline } from "@/data/cv";
 import Timeline from "@/components/Timeline";
 import { SkillChips } from "@/components/SkillChips";
 import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 
-export const metadata: Metadata = {
-  title: "Sobre mí",
-  description:
-    "Desarrollador frontend con experiencia en QA y proyectos para grandes compañías. Skills en React, Next.js, TypeScript y SEO técnico.",
-  alternates: { canonical: "/sobre-mi" },
-};
+/** SEO por idioma */
+export async function generateMetadata(
+  { params: { locale } }: { params: { locale: Locale } }
+): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "About" });
 
-const aboutUrl = new URL("/sobre-mi", siteConfig.siteUrl).toString();
+  // Canonical por idioma (respeta localePrefix: 'as-needed')
+  const BASE = siteConfig.siteUrl.replace(/\/$/, "");
+  const pathname = getPathname({ locale, href: "/about" }); // '/sobre-mi' en ES si lo mapeas en routing.ts
+  const canonical = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
 
-const aboutLd = {
-  "@context": "https://schema.org",
-  "@type": "AboutPage",
-  name: "Sobre mí",
-  url: aboutUrl,
-  mainEntity: { "@type": "Person", name: siteConfig.author.name, url: siteConfig.siteUrl },
-};
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical }
+  };
+}
 
-// (Opcional) migas de pan
-const breadcrumbsLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: siteConfig.siteUrl },
-    { "@type": "ListItem", position: 2, name: "Sobre mí", item: aboutUrl },
-  ],
-};
+export default async function AboutPage(
+  { params: { locale } }: { params: { locale: Locale } }
+) {
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "About" });
+  const tCommon = await getTranslations({ locale, namespace: "Common" });
 
-export default function SobreMiPage() {
+  // URLs + JSON-LD localizados
+  const BASE = siteConfig.siteUrl.replace(/\/$/, "");
+  const pathname = getPathname({ locale, href: "/about" });
+  const url = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
+  const inLanguage = locale === "en" ? "en-US" : "es-ES";
+
+  const aboutLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: t("title"),
+    url,
+    inLanguage,
+    mainEntity: { "@type": "Person", name: siteConfig.author.name, url: siteConfig.siteUrl }
+  };
+
+  const breadcrumbsLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: tCommon("siteName"), item: siteConfig.siteUrl },
+      { "@type": "ListItem", position: 2, name: t("title"), item: url }
+    ]
+  };
+
+  // Nota: 'aboutText', 'skills' y 'timeline' provienen de /data/cv.
+  // Si quieres localizarlos, ver guía al final.
+  const isArray = Array.isArray(aboutText);
+
   return (
     <>
-      {/* Cabecera con el mismo patrón que Proyectos */}
+      {/* Cabecera */}
       <section className="full-bleed border-b border-app bg-gradient-to-b from-zinc-50 to-white">
         <div className="mx-auto max-w-6xl px-6 py-16 bg-app text-app">
-          <h1 className="text-4xl font-extrabold tracking-tight text-app">Sobre mí</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-app">{t("title")}</h1>
           <div className="mt-3 max-w-2xl space-y-3">
-            {aboutText.map((p, i) => (
-              <p key={i} className="text-muted">{p}</p>
-            ))}
+            {isArray
+              ? (aboutText as string[]).map((p, i) => (
+                  <p key={i} className="text-muted">{p}</p>
+                ))
+              : <p className="text-muted">{String(aboutText)}</p>}
           </div>
         </div>
       </section>
 
       <main className="mx-auto max-w-6xl px-6 py-16 space-y-12">
+        {/* Skills */}
         <section className="space-y-6" aria-labelledby="skills-heading">
-          <h2 id="skills-heading" className="text-2xl font-semibold text-app">Skills</h2>
+          <h2 id="skills-heading" className="text-2xl font-semibold text-app">{t("skills.title")}</h2>
           <div className="grid gap-6 sm:grid-cols-2">
-            <SkillChips title="Lenguajes" items={skills.lenguajes} />
-            <SkillChips title="Frameworks" items={skills.frameworks} />
-            <SkillChips title="Herramientas" items={skills.herramientas} />
-            <SkillChips title="Metodologías" items={skills.metodologias} />
-            <SkillChips title="Soft skills" items={skills.soft} />
-            <SkillChips title="Idiomas" items={skills.idiomas} />
+            <SkillChips title={t("skills.categories.languages")}    items={skills.lenguajes} />
+            <SkillChips title={t("skills.categories.frameworks")}   items={skills.frameworks} />
+            <SkillChips title={t("skills.categories.tools")}        items={skills.herramientas} />
+            <SkillChips title={t("skills.categories.methods")}      items={skills.metodologias} />
+            <SkillChips title={t("skills.categories.soft")}         items={skills.soft} />
+            <SkillChips title={t("skills.categories.i18nLanguages")} items={skills.idiomas} />
           </div>
         </section>
 
+        {/* Experiencia */}
         <section className="space-y-4" aria-labelledby="experience-heading">
-          <h2 id="experience-heading" className="text-2xl font-semibold text-app">Experiencia</h2>
-          <p className="text-sm text-muted">Pulsa en cada experiencia para ver las responsabilidades del puesto.</p>
+          <h2 id="experience-heading" className="text-2xl font-semibold text-app">{t("experience.title")}</h2>
+          <p className="text-sm text-muted">{t("experience.hint")}</p>
           <Timeline items={timeline} />
         </section>
       </main>
 
+      {/* JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(aboutLd)} />
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbsLd)} />
     </>
