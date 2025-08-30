@@ -21,7 +21,7 @@ export default function Header() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const tNav = useTranslations('nav'); // asegúrate de tener "nav.about", "nav.projects", "nav.blog", "nav.contact"
+  const tNav = useTranslations('Nav'); // asegúrate de tener "nav.about", "nav.projects", "nav.blog", "nav.contact"
 
   return (
     <header className="full-bleed sticky top-0 z-50 border-b border-app bg-app-80 backdrop-blur">
