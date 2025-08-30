@@ -1,0 +1,178 @@
+{
+    "Common": {
+        "brand": "Álvaro Galán",
+        "siteName": "Álvaro Galán — Portfolio",
+        "language": "Language",
+        "languages": {
+        "es": "Spanish",
+        "en": "English"
+        },
+        "theme": {
+        "toggle": "Toggle theme",
+        "light": "Light",
+        "dark": "Dark"
+        },
+        "actions": {
+        "close": "Close",
+        "cancel": "Cancel",
+        "save": "Save",
+        "copy": "Copy",
+        "copied": "Copied!"
+        },
+        "status": {
+        "loading": "Loading…",
+        "error": "Something went wrong",
+        "empty": "No content available"
+        },
+        "a11y": {
+        "skipToContent": "Skip to content"
+        }
+    },
+
+    "SEO": {
+        "defaultTitle": "Álvaro Galán — Portfolio",
+        "defaultDescription": "Web developer. Projects, experience and contact.",
+        "homeTitle": "Home",
+        "projectsTitle": "Projects",
+        "contactTitle": "Contact",
+        "aboutTitle": "About"
+    },
+
+    "Header": {
+        "menu": { "open": "Open menu", "close": "Close menu" },
+        "quick": { "title": "Quick settings" },
+        "lang": {
+        "label": "Language selector",
+            "es": "ES",
+            "en": "EN",
+            "switchTo": "Switch to {lang}"
+        }
+    },
+
+    "Nav": {
+        "home": "Home",
+        "projects": "Projects",
+        "contact": "Contact",
+        "about": "About",
+        "ariaCurrent": "Current page"
+    },
+
+    "Footer": {
+        "copyright": "© {year} Álvaro Galán",
+        "socialAriaLabel": "Social media",
+        "builtWith": "Built with Next.js, TypeScript and Tailwind CSS"
+    },
+
+    "Hero": {
+        "title": "Hi, I'm Álvaro",
+        "introPrefix": "Hi, I'm",
+        "firstName": "Álvaro",
+        "subtitle": "Frontend developer with experience in QA and projects for large companies. Currently at MB3-Gestión and also developing personal projects related to AI, automation, and web development.",
+        "ctaProjects": "View projects",
+        "ctaContact": "Contact"
+    },
+
+    "Projects": {
+        "title": "Projects",
+        "description": "Frontend projects with React and Next.js, optimized for performance, accessibility and SEO. Real cases, clean UI and best practices.",
+        "lead": "A selection of work focused on performance and UX.",
+        "empty": "I’m preparing the content…",
+        "filters": {
+        "all": "All",
+        "tag": "Tag",
+        "search": "Search projects…"
+        },
+        "card": {
+        "demo": "Demo",
+        "code": "Code",
+        "ariaDemo": "View demo of {title}",
+        "ariaCode": "View code of {title}"
+        },
+        "grid": {
+        "more": "Show more",
+        "less": "Show less"
+        },
+        "detail": {
+            "notFound": "Project \"{slug}\" not found.",
+            "descriptionFallback": "Portfolio project."
+        }
+    },
+
+    "Contact": {
+        "title": "Contact",
+        "description": "Got an idea or project? Drop me a line and I’ll get back to you soon.",
+        "form": {
+            "name": { "label": "Name", "placeholder": "Your name" },
+            "email": { "label": "Email", "placeholder": "you@email.com" },
+            "subject": { "label": "Subject", "placeholder": "Message subject" },
+            "message": { "label": "Message", "placeholder": "Tell me your idea with some context…" },
+            "submit": "Send",
+            "submitting": "Sending…",
+            "success": "Message sent!",
+            "successLead": "Thanks for reaching out. I’ll get back to you shortly.",
+            "sendAnother": "Send another message",
+            "error": "Could not send the message."
+            },
+        "validation": {
+            "requiredAll": "Please complete name, email and message.",
+            "nameMin": "Name must be at least 2 characters.",
+            "emailInvalid": "Please enter a valid email.",
+            "messageMin": "Message must be at least 10 characters."
+        }
+    },
+
+    "NotFound": {
+        "title": "Page not found",
+        "description": "Sorry, we couldn’t find the page you’re looking for.",
+        "backHome": "Back to home"
+    },
+
+    "Blog": {
+    "title": "Blog",
+    "description": "Notes and articles on frontend, UX/UI and performance. React, Next.js, accessibility and technical SEO.",
+    "descriptionLd": "Notes and articles on frontend, UX/UI and performance by Álvaro Galán.",
+    "lead": "Frontend, UX/UI and performance notes.",
+    "post": {
+        "title": "Post: {slug}",
+        "preparingDesc": "Post in progress.",
+        "preparingLead": "Content coming soon.",
+        "preparingHint": "I'm preparing this article. In the meantime, go back to the",
+        "backToBlog": "blog"
+        },
+    "empty": {
+        "title": "Coming soon",
+        "description": "I’m preparing the first articles.",
+        "cta": "Write me",
+        "suffix": "if there’s a topic you’re interested in."
+        }
+    },
+    "About": {
+        "title": "About",
+        "description": "Frontend developer with QA experience and projects for large companies. Skills in React, Next.js, TypeScript and technical SEO.",
+        "skills": {
+            "title": "Skills",
+            "categories": {
+                "languages": "Languages",
+                "frameworks": "Frameworks",
+                "tools": "Tools",
+                "methods": "Methodologies",
+                "soft": "Soft skills",
+                "i18nLanguages": "Languages"
+            }
+        },
+        "experience": {
+            "title": "Experience",
+            "hint": "Click each role to view responsibilities."
+        }
+    },
+    "Skills": {
+        "title": "Skills",
+        "description": "Key competencies and technologies.",
+        "items": ["React / Next.js", "TypeScript", "Tailwind CSS"]
+    },
+    "CV": {
+        "title": "Resume",
+        "description": "Online resume with experience, roles and skills.",
+        "lead": "Online CV (placeholder)."
+    }
+}

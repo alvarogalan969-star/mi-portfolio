@@ -1,28 +1,39 @@
-import Link from "next/link";
 import Logo from "@/components/Logo";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
+import { siteConfig } from "@/config/site.config";
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations("Footer");
+  const year = new Date().getFullYear();
+
+  // Mailto localizado
+  const emailTo = siteConfig.social?.email ?? "alvarogalan969@gmail.com";
+  const mailtoSubject = encodeURIComponent(t("email.subject"));
+  const mailtoBody = encodeURIComponent(
+    t("email.body", { name: siteConfig.author.name })
+  );
+  const mailtoHref = `mailto:${emailTo}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
   return (
     <footer className="full-bleed mt-20 border-t border-app bg-app">
       <div className="mx-auto max-w-6xl px-6 py-12">
         {/* CTA superior */}
         <section className="rounded-2xl border border-app bg-card p-6 text-center sm:p-8">
-          <h2 className="text-2xl font-semibold text-app">¿Hablamos?</h2>
-          <p className="mt-2 text-muted">
-            Disponible para proyectos y colaboraciones.
-          </p>
+          <h2 className="text-2xl font-semibold text-app">{t("cta.title")}</h2>
+          <p className="mt-2 text-muted">{t("cta.lead")}</p>
           <div className="mt-4 flex justify-center gap-3">
             <Link
-              href="/contacto"
+              href="/contact"
               className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-700"
             >
-              Contacto
+              {t("cta.contact")}
             </Link>
             <Link
-              href="/sobre-mi"
+              href="/about"
               className="inline-flex items-center justify-center rounded-xl border border-app px-5 py-3 font-semibold text-app transition hover:bg-card"
             >
-              Sobre mí
+              {t("cta.about")}
             </Link>
           </div>
         </section>
@@ -32,24 +43,27 @@ export default function Footer() {
           <div>
             <Logo className="h-7 w-auto" />
             <p className="mt-3 max-w-sm text-muted">
-              Desarrollador front-end en <span className="text-app font-medium">MB3-Gestión</span>. 
-              También construyo proyectos personales de <span className="text-app font-medium">IA</span>,{" "}
+              {/* Puedes mover este texto a i18n si quieres. */}
+              Desarrollador front-end en{" "}
+              <span className="text-app font-medium">MB3-Gestión</span>. También
+              construyo proyectos personales de{" "}
+              <span className="text-app font-medium">IA</span>.
             </p>
           </div>
 
           <div className="sm:text-right">
             <nav className="flex items-center justify-start gap-5 sm:justify-end">
-              <Link href="/sobre-mi" className="text-muted transition hover:text-app">
-                Sobre mí
+              <Link href="/about" className="text-muted transition hover:text-app">
+                {t("nav.about")}
               </Link>
-              <Link href="/proyectos" className="text-muted transition hover:text-app">
-                Proyectos
+              <Link href="/projects" className="text-muted transition hover:text-app">
+                {t("nav.projects")}
               </Link>
               <Link href="/blog" className="text-muted transition hover:text-app">
-                Blog
+                {t("nav.blog")}
               </Link>
-              <Link href="/contacto" className="text-muted transition hover:text-app">
-                Contacto
+              <Link href="/contact" className="text-muted transition hover:text-app">
+                {t("nav.contact")}
               </Link>
             </nav>
 
@@ -57,7 +71,7 @@ export default function Footer() {
             <div className="mt-5 flex justify-start gap-4 sm:justify-end">
               <a
                 href="https://github.com/alvarogalan969-star"
-                aria-label="GitHub"
+                aria-label={t("social.github")}
                 target="_blank"
                 rel="noreferrer"
                 className="group inline-flex h-10 w-10 items-center justify-center rounded-lg border border-app hover:bg-card"
@@ -74,7 +88,7 @@ export default function Footer() {
 
               <a
                 href="https://www.linkedin.com/in/alvarogalanpascual/"
-                aria-label="LinkedIn"
+                aria-label={t("social.linkedin")}
                 target="_blank"
                 rel="noreferrer"
                 className="group inline-flex h-10 w-10 items-center justify-center rounded-lg border border-app hover:bg-card"
@@ -90,8 +104,8 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:alvarogalan969@gmail.com?subject=Contacto%20desde%20la%20web&body=Hola%20Álvaro%2C%20te%20escribo%20desde%20tu%20portafolio."
-                aria-label="Email"
+                href={mailtoHref}
+                aria-label={t("social.email")}
                 className="group inline-flex h-10 w-10 items-center justify-center rounded-lg border border-app hover:bg-card"
               >
                 <svg
@@ -110,10 +124,10 @@ export default function Footer() {
         {/* Línea inferior */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-app pt-6 sm:flex-row">
           <p className="text-sm text-muted">
-            © {new Date().getFullYear()} Álvaro. Todos los derechos reservados.
+            {t("legal.copyright", { year })}
           </p>
           <p className="text-sm text-muted">
-            Hecho con{" "}
+            {t("legal.madeWith")}{" "}
             <a
               href="https://nextjs.org"
               target="_blank"
