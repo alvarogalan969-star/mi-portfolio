@@ -38,6 +38,17 @@
         "aboutTitle": "About"
     },
 
+    "Header": {
+        "menu": { "open": "Open menu", "close": "Close menu" },
+        "quick": { "title": "Quick settings" },
+        "lang": {
+        "label": "Language selector",
+            "es": "ES",
+            "en": "EN",
+            "switchTo": "Switch to {lang}"
+        }
+    },
+
     "Nav": {
         "home": "Home",
         "projects": "Projects",

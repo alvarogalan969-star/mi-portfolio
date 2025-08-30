@@ -38,6 +38,17 @@
         "aboutTitle": "Sobre mí"
     },
 
+    "Header": {
+        "menu": { "open": "Abrir menú", "close": "Cerrar menú" },
+        "quick": { "title": "Ajustes rápidos" },
+        "lang": {
+        "label": "Selector de idioma",
+            "es": "ES",
+            "en": "EN",
+            "switchTo": "Cambiar a {lang}"
+        }
+    },
+
     "Nav": {
         "home": "Inicio",
         "projects": "Proyectos",
@@ -47,9 +58,31 @@
     },
 
     "Footer": {
-        "copyright": "© {year} Álvaro Galán",
-        "socialAriaLabel": "Redes sociales",
-        "builtWith": "Construido con Next.js, TypeScript y Tailwind CSS"
+        "cta": {
+            "title": "¿Hablamos?",
+            "lead": "Disponible para proyectos y colaboraciones.",
+            "contact": "Contacto",
+            "about": "Sobre mí"
+        },
+        "nav": {
+            "about": "Sobre mí",
+            "projects": "Proyectos",
+            "blog": "Blog",
+            "contact": "Contacto"
+        },
+        "social": {
+            "github": "GitHub",
+            "linkedin": "LinkedIn",
+            "email": "Correo"
+        },
+        "legal": {
+            "copyright": "© {year} Álvaro. Todos los derechos reservados.",
+            "madeWith": "Hecho con"
+        },
+        "email": {
+            "subject": "Contacto desde la web",
+            "body": "Hola {name}, te escribo desde tu portafolio."
+        }
     },
 
     "Hero": {
