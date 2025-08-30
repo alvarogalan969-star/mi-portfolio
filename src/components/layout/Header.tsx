@@ -1,65 +1,27 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import {useLocale, useTranslations} from 'next-intl';
+import {useTranslations} from 'next-intl';
 import {Link, usePathname} from '@/i18n/routing';
 import Logo from '@/components/Logo';
 import QuickMenu from '../QuickMenu';
 
-// Lo que puede devolver tu usePathname tipado para rutas dinámicas
-type DynamicPath = {
-  pathname: string;
-  params?: Record<string, string | string[]>;
-  query?: Record<string, string | string[]>;
-};
-
-// Derivamos el tipo de href a partir de Link
-type LinkHref = React.ComponentProps<typeof Link>['href'];
-
-// Normaliza a LinkHref (estáticas -> literal; dinámicas -> objeto)
-function toLinkHref(p: string | DynamicPath): LinkHref {
-  if (typeof p !== 'string') {
-    return {
-      pathname: p.pathname as never, // literal dinámico generado (p.ej., '/projects/[slug]')
-      params: p.params as never,
-      query: p.query as never
-    } as LinkHref;
-  }
-  switch (p) {
-    case '/':
-    case '/about':
-    case '/about/skills':
-    case '/projects':
-    case '/contact':
-    case '/blog':
-    case '/cv':
-      return p;
-    default:
-      // Fallback seguro si llega algo fuera del union estático
-      return '/';
-  }
-}
-
 export default function Header() {
   const [open, setOpen] = useState(false);
 
-  // Puede ser string o DynamicPath
-  const rawPathname = usePathname() as string | DynamicPath;
-  const hrefActual: LinkHref = toLinkHref(rawPathname);
-
-  const locale = useLocale();
-  const tNav = useTranslations('Nav');
-  const t = useTranslations('Header');
-
   // Cierra el panel móvil al navegar
-  useEffect(() => { setOpen(false); }, [rawPathname]);
+  const pathname = usePathname();
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   // Cierra con Escape
+  const t = useTranslations('Header');
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === 'Escape') setOpen(false); }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
+
+  const tNav = useTranslations('nav'); // asegúrate de tener "nav.about", "nav.projects", "nav.blog", "nav.contact"
 
   return (
     <header className="full-bleed sticky top-0 z-50 border-b border-app bg-app-80 backdrop-blur">
@@ -79,31 +41,7 @@ export default function Header() {
             {tNav('contact')}
           </Link>
 
-          {/* Selector de idioma (conserva la ruta actual) */}
-          <div className="ml-2 flex items-center gap-1" aria-label={t('lang.label')}>
-            <Link
-              href={hrefActual}
-              locale="es"
-              aria-current={locale === 'es' ? 'true' : undefined}
-              className={`rounded-md px-2 py-1 text-xs font-semibold transition ${
-                locale === 'es' ? 'bg-card text-app border border-app' : 'text-muted hover:text-app'
-              }`}
-            >
-              {t('lang.es')}
-            </Link>
-            <span className="text-zinc-300">/</span>
-            <Link
-              href={hrefActual}
-              locale="en"
-              aria-current={locale === 'en' ? 'true' : undefined}
-              className={`rounded-md px-2 py-1 text-xs font-semibold transition ${
-                locale === 'en' ? 'bg-card text-app border border-app' : 'text-muted hover:text-app'
-              }`}
-            >
-              {t('lang.en')}
-            </Link>
-          </div>
-
+          {/* Dropdown con tema + idioma */}
           <QuickMenu className="ml-2" />
         </nav>
 
@@ -154,37 +92,14 @@ export default function Header() {
             {tNav('contact')}
           </Link>
 
-          {/* Ajustes rápidos */}
+          {/* Ajustes rápidos → agrupamos tema + idioma en el mismo dropdown para móvil */}
           <div className="mt-2 rounded-lg bg-card p-2">
             <div className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-muted">
               {t('quick.title')}
             </div>
-
-            {/* Selector de idioma en móvil */}
-            <div className="mb-2 flex w-full items-center justify-between gap-2">
-              <Link
-                href={hrefActual}
-                locale="es"
-                aria-current={locale === 'es' ? 'true' : undefined}
-                className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition ${
-                  locale === 'es' ? 'border-app bg-card text-app' : 'border-app text-muted hover:text-app'
-                }`}
-              >
-                {t('lang.es')}
-              </Link>
-              <Link
-                href={hrefActual}
-                locale="en"
-                aria-current={locale === 'en' ? 'true' : undefined}
-                className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition ${
-                  locale === 'en' ? 'border-app bg-card text-app' : 'border-app text-muted hover:text-app'
-                }`}
-              >
-                {t('lang.en')}
-              </Link>
+            <div className="mt-2">
+              <QuickMenu className="w-full" />
             </div>
-
-            <QuickMenu className="w-full" />
           </div>
         </nav>
       </div>

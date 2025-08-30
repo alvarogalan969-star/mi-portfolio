@@ -1,14 +1,12 @@
-// src/middleware.ts
 import createMiddleware from 'next-intl/middleware';
-import {routing} from './i18n/routing';
 
-export default createMiddleware(routing);
+export default createMiddleware({
+  locales: ['es', 'en'],
+  defaultLocale: 'es',
+  localePrefix: 'always' // URLs del tipo /es/... y /en/...
+});
 
 export const config = {
-    matcher: [
-        // redirige la raíz al locale preferido o por defecto
-        '/',
-        // aplica i18n a todas las rutas de páginas, excluyendo estáticos y _next
-        '/((?!api|_next|.*\\..*).*)'
-    ]
+  // Excluye estáticos y API
+  matcher: ['/((?!api|_next|.*\\..*).*)']
 };

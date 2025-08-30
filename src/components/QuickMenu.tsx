@@ -2,17 +2,69 @@
 
 import {useEffect, useRef, useState} from 'react';
 import {useTheme} from 'next-themes';
+import {useLocale, useTranslations} from 'next-intl';
+import {Link, usePathname} from '@/i18n/routing';
 
 type Props = {
   className?: string;
   showLabelOnMdUp?: boolean;
 };
 
+type DynamicPath = {
+  pathname: string;
+  params?: Record<string, string | string[]>;
+  query?: Record<string, string | string[]>;
+};
+
+type LinkHref = React.ComponentProps<typeof Link>['href'];
+
+// Normaliza a LinkHref (estáticas -> literal; dinámicas -> objeto)
+function toLinkHref(p: string | DynamicPath): LinkHref {
+  if (typeof p !== 'string') {
+    return {
+      pathname: p.pathname as never,
+      params: p.params as never,
+      query: p.query as never
+    } as LinkHref;
+  }
+  // Asegura que si cae algo no soportado, volvemos a home
+  switch (p) {
+    case '/':
+    case '/about':
+    case '/about/skills':
+    case '/projects':
+    case '/projects/[slug]':
+    case '/contact':
+    case '/blog':
+    case '/blog/[slug]':
+    case '/cv':
+    default:
+      return '/';
+  }
+}
+
 export default function QuickMenu({className = '', showLabelOnMdUp = false}: Props) {
   const {theme, setTheme, resolvedTheme} = useTheme();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  // i18n
+  const locale = useLocale();
+  const tHeader = useTranslations('Header'); // usa Header.lang.label / es / en
+  const t = {
+    appearance: tHeader('quick.title', {default: 'Ajustes'}),
+    light: 'Claro',
+    dark: 'Oscuro',
+    system: 'Sistema',
+    langLabel: tHeader('lang.label'),
+    es: tHeader('lang.es'),
+    en: tHeader('lang.en')
+  };
+
+  // Ruta actual (localizada) -> LinkHref, para conservarla al cambiar de idioma
+  const rawPathname = usePathname() as string | DynamicPath;
+  const hrefActual: LinkHref = toLinkHref(rawPathname);
 
   useEffect(() => setMounted(true), []);
 
@@ -51,7 +103,7 @@ export default function QuickMenu({className = '', showLabelOnMdUp = false}: Pro
         <span className="h-4 w-4 shrink-0 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
           {active === 'dark' ? <MoonIcon /> : active === 'light' ? <SunIcon /> : <SystemIcon />}
         </span>
-        {showLabelOnMdUp && <span className="hidden md:inline">Ajustes</span>}
+        {showLabelOnMdUp && <span className="hidden md:inline">{t.appearance}</span>}
         <span className="h-4 w-4 shrink-0 opacity-70 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
           <ChevronDown />
         </span>
@@ -64,33 +116,50 @@ export default function QuickMenu({className = '', showLabelOnMdUp = false}: Pro
         className={`absolute right-0 z-[60] mt-2 w-56 origin-top-right rounded-xl border border-app bg-card p-1 shadow-xl transition 
         ${open ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'}`}
       >
+        {/* Apariencia */}
         <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
-          Apariencia
+          {t.appearance}
         </div>
         <MenuItem
           active={active === 'light'}
           onClick={() => { setTheme('light'); setOpen(false); }}
           icon={<SunIcon />}
-          label="Claro"
+          label={t.light}
         />
         <MenuItem
           active={active === 'dark'}
           onClick={() => { setTheme('dark'); setOpen(false); }}
           icon={<MoonIcon />}
-          label="Oscuro"
+          label={t.dark}
         />
         <MenuItem
           active={active === 'system'}
           onClick={() => { setTheme('system'); setOpen(false); }}
           icon={<SystemIcon />}
-          label="Sistema"
+          label={t.system}
         />
 
+        {/* Idioma */}
         <div className="my-2 border-t border-app" />
         <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
-          Idioma
+          {t.langLabel}
         </div>
-        <MenuItem disabled icon={<GlobeIcon />} label="Pronto: Español / English" />
+        <LangItemLink
+          href={hrefActual}
+          locale="es"
+          current={locale === 'es'}
+          icon={<GlobeIcon />}
+          label={t.es}
+          onSelect={() => setOpen(false)}
+        />
+        <LangItemLink
+          href={hrefActual}
+          locale="en"
+          current={locale === 'en'}
+          icon={<GlobeIcon />}
+          label={t.en}
+          onSelect={() => setOpen(false)}
+        />
       </div>
     </div>
   );
@@ -132,6 +201,46 @@ function MenuItem({
         </span>
       ) : null}
     </button>
+  );
+}
+
+/** Item de idioma como Link, visualmente igual que MenuItem */
+function LangItemLink({
+  href,
+  locale,
+  current,
+  icon,
+  label,
+  onSelect
+}: {
+  href: LinkHref;
+  locale: 'es' | 'en';
+  current: boolean;
+  icon: React.ReactNode;
+  label: string;
+  onSelect?: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      locale={locale}
+      aria-current={current ? 'true' : undefined}
+      role="menuitem"
+      className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors
+        hover:bg-zinc-200 dark:hover:bg-zinc-700
+        text-app hover:text-white`}
+      onClick={onSelect}
+    >
+      <span className="h-4 w-4 shrink-0 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
+        {icon}
+      </span>
+      <span className="flex-1">{label}</span>
+      {current ? (
+        <span className="h-4 w-4 shrink-0 opacity-80 text-inherit transition-colors group-hover:text-white [&>svg]:h-4 [&>svg]:w-4">
+          <CheckIcon />
+        </span>
+      ) : null}
+    </Link>
   );
 }
 

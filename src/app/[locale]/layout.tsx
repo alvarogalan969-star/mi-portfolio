@@ -14,17 +14,17 @@ import { jsonLd } from '@/lib/structured-data';
 import { Figtree } from 'next/font/google';
 
 const figtree = Figtree({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap'
+    subsets: ['latin'],
+    variable: '--font-sans',
+    display: 'swap'
 });
 
 function isHttpUrl(u: unknown): u is string {
-  return typeof u === 'string' && /^https?:\/\//.test(u);
+    return typeof u === 'string' && /^https?:\/\//.test(u);
 }
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+    return routing.locales.map((locale) => ({ locale }));
 }
 
 export const dynamic = 'force-static';
