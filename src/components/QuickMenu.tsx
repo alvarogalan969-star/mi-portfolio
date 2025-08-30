@@ -152,14 +152,18 @@ export default function QuickMenu({className = '', showLabelOnMdUp = false}: Pro
           label={t.es}
           onSelect={() => setOpen(false)}
         />
-        <LangItemLink
-          href={hrefActual}
-          locale="en"
-          current={locale === 'en'}
-          icon={<GlobeIcon />}
-          label={t.en}
-          onSelect={() => setOpen(false)}
-        />
+        <button
+          type="button"
+          disabled
+          role="menuitem"
+          className="group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors
+                    opacity-50 cursor-not-allowed text-app"
+        >
+          <span className="h-4 w-4 shrink-0 text-inherit [&>svg]:h-4 [&>svg]:w-4">
+            <GlobeIcon />
+          </span>
+          <span className="flex-1">{t.en} (pronto)</span>
+        </button>
       </div>
     </div>
   );
