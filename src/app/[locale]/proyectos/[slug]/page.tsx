@@ -21,7 +21,13 @@ export async function generateMetadata(
   const project = getProjectBySlug(slug);
 
   const BASE = siteConfig.siteUrl.replace(/\/$/, '');
-  const pathname = getPathname({ locale, href: `/projects/${slug}` }); // respeta /proyectos en ES si lo mapeaste
+
+  // ❌ Antes: href: `/projects/${slug}`
+  // ✅ Ahora: objeto dinámico
+  const pathname = getPathname({
+    locale,
+    href: { pathname: '/projects/[slug]', params: { slug } }
+  });
   const canonical = locale === 'en' ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
 
   if (!project) {
@@ -57,7 +63,13 @@ export default async function ProjectPage(
   if (!project) return notFound();
 
   const BASE = siteConfig.siteUrl.replace(/\/$/, '');
-  const pathname = getPathname({ locale, href: `/projects/${slug}` });
+
+  // ❌ Antes: href: `/projects/${slug}`
+  // ✅ Ahora: objeto dinámico
+  const pathname = getPathname({
+    locale,
+    href: { pathname: '/projects/[slug]', params: { slug } }
+  });
   const url = locale === 'en' ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
   const inLanguage = locale === 'en' ? 'en-US' : 'es-ES';
 
@@ -76,6 +88,7 @@ export default async function ProjectPage(
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: siteConfig.name, item: siteConfig.siteUrl },
+      // Aquí puedes dejar `/projects` estático (no dinámico) para que se localice solo
       { '@type': 'ListItem', position: 2, name: t('title'), item: `${BASE}${locale === 'en' ? '/en' : ''}${getPathname({ locale, href: '/projects' })}` },
       { '@type': 'ListItem', position: 3, name: project.title, item: url }
     ]
@@ -86,7 +99,7 @@ export default async function ProjectPage(
       <article className="prose max-w-none">
         <h1>{project.title}</h1>
         {project.summary && <p>{project.summary}</p>}
-        {/* aquí puedes renderizar más campos del proyecto */}
+        {/* más campos del proyecto */}
       </article>
 
       {/* JSON-LD */}
