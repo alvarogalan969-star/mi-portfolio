@@ -28,16 +28,15 @@ function toLinkHref(p: string | DynamicPath): LinkHref {
   switch (p) {
     case '/':
     case '/about':
-    case '/about/skills':
     case '/projects':
     case '/contact':
     case '/blog':
     case '/cv':
       return p;
     default:
-      // Fallback seguro si llega algo fuera del union estático
-      return p as unknown as LinkHref;
-  }
+      // Fallback: deja pasar el pathname actual (localizado o no).
+      // TS no lo tiene en el union → cast explícito.
+    return p as unknown as LinkHref;  }
 }
 
 export default function Header() {

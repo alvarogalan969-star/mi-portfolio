@@ -9,24 +9,13 @@ export const routing = defineRouting({
   localePrefix: 'as-needed',
   pathnames: {
     '/': '/',
-
-    // Sobre mí
     '/about': { es: '/sobre-mi', en: '/about' },
-    '/about/skills': { es: '/sobre-mi/skills', en: '/about/skills' },
-
-    // Proyectos
     '/projects': { es: '/proyectos', en: '/projects' },
     '/projects/[slug]': { es: '/proyectos/[slug]', en: '/projects/[slug]' },
-
-    // Contacto
     '/contact': { es: '/contacto', en: '/contact' },
-
-    // Blog
     '/blog': { es: '/blog', en: '/blog' },
     '/blog/[slug]': { es: '/blog/[slug]', en: '/blog/[slug]' },
-
-    // CV / Resume (elige si quieres /resume en EN)
-    '/cv': { es: '/cv', en: '/resume' } // o { es: '/cv', en: '/cv' }
+    '/cv': { es: '/cv', en: '/resume' }
   }
 });
 
