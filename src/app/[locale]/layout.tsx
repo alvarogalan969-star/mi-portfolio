@@ -2,7 +2,7 @@
 import '../globals.css';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { setRequestLocale, getMessages } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { routing, type Locale } from '@/i18n/routing';
 
 import Header from '@/components/layout/Header';
@@ -100,7 +100,7 @@ export default async function LocaleLayout({
     // Fija el locale para mantener SSG y cargar mensajes correctos
     if (!routing.locales.includes(locale)) notFound();
     setRequestLocale(locale);
-    const messages = await getMessages();
+    const messages = (await import(`@/messages/${locale}.json`)).default;
 
     // Enlaces "me"
     const gh = siteConfig.social?.github;
