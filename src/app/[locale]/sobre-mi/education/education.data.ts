@@ -6,6 +6,7 @@ export type EducationItem = {
     end?: string;    // ISO o undefined si “Actual”
     website?: string;
     eqfLevel?: 6 | 7; // EQF-MEC cuando aplique
+    logo?: string;
 };
 
 export const education: EducationItem[] = [
@@ -16,6 +17,7 @@ export const education: EducationItem[] = [
         start: "2025-02-01",
         website: "https://www.unir.net/",
         eqfLevel: 7, // Nivel 7 EQF-MEC
+        logo: "/images/education/Logo-UNIR-300-px--removebg-preview.png",
     },
     {
         title: "UX/UI Immersive",
@@ -24,6 +26,7 @@ export const education: EducationItem[] = [
         start: "2024-03-01",
         end: "2024-07-15",
         website: "https://www.uxerschool.com/",
+        logo: "/images/education/logo-uxer-school.png",
     },
     {
         title: "Grado en Ingeniería en telecomunicaciones",
@@ -33,5 +36,6 @@ export const education: EducationItem[] = [
         end: "2023-07-15",
         website: "https://www.unex.es/",
         eqfLevel: 6, // Nivel 6 EQF-MEC
+        logo: "/images/education/Logo-UEx-removebg-preview.png",
     },
 ];

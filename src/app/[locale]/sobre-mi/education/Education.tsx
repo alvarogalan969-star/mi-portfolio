@@ -19,7 +19,7 @@ const items: Experience[] = education.map((ed) => ({
   location: ed.location,
   start: fmt(ed.start),
   end: ed.end ? fmt(ed.end) : "Actual",
-  logo: "", // ✅ string vacío para cumplir el tipo (y caer en el fallback visual)
+  logo: ed.logo ?? "", 
   bullets: [
     ed.eqfLevel ? `EQF-MEC nivel ${ed.eqfLevel}` : undefined,
     ed.website ? `Sitio: ${host(ed.website)}` : undefined,
