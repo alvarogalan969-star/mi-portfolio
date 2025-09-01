@@ -9,6 +9,8 @@ import { SkillChips } from "@/components/SkillChips";
 import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 
+import EducationSection from "./education/Education";
+
 /** SEO por idioma */
 export async function generateMetadata(
   { params: { locale } }: { params: { locale: Locale } }
@@ -99,6 +101,8 @@ export default async function AboutPage(
           <Timeline items={timeline} />
         </section>
       </main>
+
+      <EducationSection />
 
       {/* JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(aboutLd)} />
