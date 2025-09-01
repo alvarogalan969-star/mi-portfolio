@@ -5,10 +5,8 @@ import {routing} from './i18n/routing';
 export default createMiddleware(routing);
 
 export const config = {
-    matcher: [
-        // redirige la raíz al locale preferido o por defecto
-        '/',
-        // aplica i18n a todas las rutas de páginas, excluyendo estáticos y _next
-        '/((?!api|_next|.*\\..*).*)'
-    ]
+  matcher: [
+    '/', // raíz
+    '/((?!api|_next|_vercel|.*\\..*).*)' // todas las rutas de páginas
+  ]
 };

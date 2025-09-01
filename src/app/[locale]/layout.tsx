@@ -13,6 +13,8 @@ import { siteConfig } from '@/config/site.config';
 import { jsonLd } from '@/lib/structured-data';
 import { Figtree } from 'next/font/google';
 
+import {notFound} from 'next/navigation';
+
 const figtree = Figtree({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -96,6 +98,7 @@ export default async function LocaleLayout({
     params: { locale }
     }: Readonly<{ children: React.ReactNode; params: { locale: Locale } }>) {
     // Fija el locale para mantener SSG y cargar mensajes correctos
+    if (!routing.locales.includes(locale)) notFound();
     setRequestLocale(locale);
     const messages = await getMessages();
 

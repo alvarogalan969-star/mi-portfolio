@@ -3,7 +3,7 @@ import {defineRouting} from 'next-intl/routing';
 import {createNavigation} from 'next-intl/navigation';
 
 export const routing = defineRouting({
-  locales: ['es', 'en'] as const,
+  locales: ['es', 'en'],
   defaultLocale: 'es',
   // 'as-needed' → la home en ES no lleva /es, pero EN sí usa /en
   localePrefix: 'as-needed',

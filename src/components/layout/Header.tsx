@@ -36,7 +36,7 @@ function toLinkHref(p: string | DynamicPath): LinkHref {
       return p;
     default:
       // Fallback seguro si llega algo fuera del union estático
-      return '/';
+      return p as unknown as LinkHref;
   }
 }
 
