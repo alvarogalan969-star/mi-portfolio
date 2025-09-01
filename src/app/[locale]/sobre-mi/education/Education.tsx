@@ -1,42 +1,36 @@
-// src/app/[locale]/about/education/Education.tsx
-// (Server Component por defecto: NO "use client")
-
-import type { ComponentProps } from "react";
+// src/app/[locale]/sobre-mi/education/Education.tsx
 import Timeline from "@/components/Timeline";
 import { education } from "./education.data";
+import type { Experience } from "@/data/cv"; // SOLO tipo; no afecta al runtime
 
-// 1) Inferimos el tipo del item DESDE el componente Timeline (solo tipos)
-type TimelineProps = ComponentProps<typeof Timeline>;
-type TimelineItem = TimelineProps extends { items: Array<infer I> } ? I : never;
-
-// 2) Utilidad para formatear el rango de fechas con es-ES
-function formatRange(startISO: string, endISO?: string) {
-    const fmt = new Intl.DateTimeFormat("es-ES", { month: "short", year: "numeric" });
-    const s = fmt.format(new Date(startISO));
-    const e = endISO ? fmt.format(new Date(endISO)) : "Actual";
-    return `${s} — ${e}`;
+function fmt(iso: string) {
+  return new Intl.DateTimeFormat("es-ES", { month: "short", year: "numeric" })
+    .format(new Date(iso));
+}
+function host(url?: string) {
+  if (!url) return;
+  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return;
+  }
 }
 
-// 3) Adaptador: EducationItem -> TimelineItem
-//    ⚠️ Si tu <Timeline /> no usa "date" sino "period"/"dateRange", cambia la clave abajo.
-const items: TimelineItem[] = education.map((ed) => {
-    const date = formatRange(ed.start, ed.end);
-    return {
-        title: ed.title,
-        subtitle: `${ed.institution} · ${ed.location}`,
-        date,                         // ← renombra a 'period' si tu Timeline lo llama así
-        href: ed.website,
-        description: ed.eqfLevel ? `EQF-MEC Nivel ${ed.eqfLevel}` : undefined,
-    } as unknown as TimelineItem;
-});
+const items: Experience[] = education.map((ed) => ({
+  company: ed.institution,
+  role: ed.title,
+  location: ed.location,
+  start: fmt(ed.start),
+  end: ed.end ? fmt(ed.end) : "Actual",
+  logo: "", // ✅ string vacío para cumplir el tipo (y caer en el fallback visual)
+  bullets: [
+    ed.eqfLevel ? `EQF-MEC nivel ${ed.eqfLevel}` : undefined,
+    ed.website ? `Sitio: ${host(ed.website)}` : undefined,
+  ].filter(Boolean) as string[],
+}));
 
 export default function EducationSection() {
-    return (
-        <section className="space-y-4" aria-labelledby="education-heading">
-        <h2 id="education-heading" className="text-2xl font-semibold text-app">
-            Educación
-        </h2>
-        <Timeline items={items} />
-        </section>
-    );
+  return (
+    <section className="space-y-4" aria-labelledby="education-heading">
+      <h2 id="education-heading" className="text-2xl font-semibold text-app">Educación</h2>
+      <Timeline items={items} />
+    </section>
+  );
 }

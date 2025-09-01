@@ -98,11 +98,11 @@ export default async function AboutPage(
         <section className="space-y-4" aria-labelledby="experience-heading">
           <h2 id="experience-heading" className="text-2xl font-semibold text-app">{t("experience.title")}</h2>
           <p className="text-sm text-muted">{t("experience.hint")}</p>
-          <Timeline items={timeline} />
+          <Timeline items={Array.isArray(timeline) ? timeline : []} />
         </section>
-      </main>
 
-      <EducationSection />
+        <EducationSection />
+      </main>
 
       {/* JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(aboutLd)} />
