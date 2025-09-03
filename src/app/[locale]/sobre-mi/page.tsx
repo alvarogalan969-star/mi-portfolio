@@ -13,8 +13,9 @@ import EducationSection from "./education/Education";
 
 /** SEO por idioma */
 export async function generateMetadata(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "About" });
 
   // Canonical por idioma (respeta localePrefix: 'as-needed')
@@ -30,8 +31,9 @@ export async function generateMetadata(
 }
 
 export default async function AboutPage(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ) {
+  const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "About" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });

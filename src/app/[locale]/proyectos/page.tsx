@@ -3,19 +3,22 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getPathname, type Locale } from "@/i18n/routing";
 
+import ProjectCard from "@/components/ProjectCard";
 import ProyectosEmptyState from "@/components/ProyectosEmptyState";
 import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
+import { allProjects } from "contentlayer/generated";
 
 /** SEO por idioma */
 export async function generateMetadata(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Projects" });
 
   // Canonical por idioma (respeta localePrefix: 'as-needed')
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
-  const pathname = getPathname({ locale, href: "/projects" }); // '/projects' interno → '/proyectos' en ES
+  const pathname = getPathname({ locale, href: "/projects" }); // '/projects' interno → '/proyectos' en ES si lo mapeas
   const canonical = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
 
   return {
@@ -26,17 +29,19 @@ export async function generateMetadata(
 }
 
 export default async function ProjectsPage(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ) {
+  const { locale } = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: "Projects" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
-  // Cuando tengas loader real:
-  // const projects = await getProjects();
-  // const isEmpty = projects.length === 0;
-  const isEmpty = true;
+  // Ordena por fecha desc (si existe), luego por título
+  const projects = [...allProjects].sort(
+    (a, b) => (b.date || "").localeCompare(a.date || "") || a.title.localeCompare(b.title)
+  );
+  const isEmpty = projects.length === 0;
 
   // URLs y JSON-LD localizados
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
@@ -78,8 +83,10 @@ export default async function ProjectsPage(
         {isEmpty ? (
           <ProyectosEmptyState />
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2">
-            {/* cards aquí */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((p) => (
+              <ProjectCard key={p._id} p={p} locale={locale} />
+            ))}
           </div>
         )}
       </section>

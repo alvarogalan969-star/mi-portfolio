@@ -2,6 +2,7 @@
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { env } from "node:process"; 
 import createNextIntlPlugin from 'next-intl/plugin';
+import { withContentlayer } from 'next-contentlayer';
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -36,5 +37,5 @@ const nextConfig = {
   },
 };
 
-export default withNextIntl(withBundleAnalyzer(nextConfig));
+export default withContentlayer(withNextIntl(withBundleAnalyzer(nextConfig)));
 

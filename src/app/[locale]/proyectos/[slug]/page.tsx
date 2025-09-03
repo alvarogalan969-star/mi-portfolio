@@ -15,8 +15,9 @@ export function generateStaticParams() {
 
 /** Metadata por idioma + canonical correcto */
 export async function generateMetadata(
-  { params: { locale, slug } }: { params: { locale: Locale; slug: string } }
+  { params }: { params: Promise<{ locale: Locale; slug: string }> }
 ): Promise<Metadata> {
+  const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: 'Projects' });
   const project = getProjectBySlug(slug);
 
@@ -39,6 +40,11 @@ export async function generateMetadata(
     };
   }
 
+  const coverAbs =
+    typeof project.cover === 'string'
+      ? (project.cover.startsWith('http') ? project.cover : new URL(project.cover, BASE).toString())
+      : undefined;
+
   return {
     title: project.title,
     description: project.summary ?? t('detail.descriptionFallback'),
@@ -48,14 +54,15 @@ export async function generateMetadata(
       description: project.summary ?? t('detail.descriptionFallback'),
       url: canonical,
       type: 'article',
-      images: project.cover ? [{ url: project.cover }] : undefined
+      images: coverAbs ? [{ url: coverAbs }] : undefined
     }
   };
 }
 
 export default async function ProjectPage(
-  { params: { locale, slug } }: { params: { locale: Locale; slug: string } }
+  { params }: { params: Promise<{ locale: Locale; slug: string }> }
 ) {
+  const { locale, slug } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'Projects' });
 
