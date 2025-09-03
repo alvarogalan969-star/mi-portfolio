@@ -6,7 +6,7 @@ import type { Project } from "contentlayer/generated";
 export default function ProjectCard({ p, locale }: { p: Project; locale: Locale }) {
     const href = getPathname({
         locale,
-        href: { pathname: "/proyectos/[slug]", params: { slug: p.slug } }
+        href: { pathname: "/projects/[slug]", params: { slug: p.slug } }
     });
 
     // coverUrl lo calculamos en contentlayer.config.ts (o usa `/projects/${p.slug}/${p.cover}`)
