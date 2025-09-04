@@ -1,4 +1,4 @@
-// src/app/[locale]/projects/page.tsx
+// src/app/[locale]/proyectos/page.tsx
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getPathname, type Locale } from "@/i18n/routing";
@@ -9,6 +9,8 @@ import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 import { allProjects } from "contentlayer/generated";
 
+export const dynamic = "force-static";
+
 /** SEO por idioma */
 export async function generateMetadata(
   { params }: { params: Promise<{ locale: Locale }> }
@@ -16,9 +18,9 @@ export async function generateMetadata(
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Projects" });
 
-  // Canonical por idioma (respeta localePrefix: 'as-needed')
+  // Usa la RUTA CANÓNICA y deja que i18n la mapee a /proyectos
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
-  const pathname = getPathname({ locale, href: "/projects" }); // '/projects' interno → '/proyectos' en ES si lo mapeas
+  const pathname = getPathname({ locale, href: "/projects" });
   const canonical = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
 
   return {
@@ -37,13 +39,13 @@ export default async function ProjectsPage(
   const t = await getTranslations({ locale, namespace: "Projects" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
-  // Ordena por fecha desc (si existe), luego por título
+  // Carga SOLO desde Contentlayer (MDX)
   const projects = [...allProjects].sort(
     (a, b) => (b.date || "").localeCompare(a.date || "") || a.title.localeCompare(b.title)
   );
   const isEmpty = projects.length === 0;
 
-  // URLs y JSON-LD localizados
+  // JSON-LD localizado
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
   const pathname = getPathname({ locale, href: "/projects" });
   const url = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;

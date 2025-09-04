@@ -36,7 +36,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       )}
 
       <div className="flex items-center gap-3 text-sm">
-        <Link href={`/proyectos/${slug}`} className="no-underline text-black underline-offset-4">
+        <Link href={`/projects/${slug}`} className="no-underline text-black underline-offset-4">
           Detalles
         </Link>
         {demoUrl && (

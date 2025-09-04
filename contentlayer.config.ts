@@ -33,7 +33,7 @@ export const Project = defineDocumentType(() => ({
         },
         url: {
             type: 'string',
-            resolve: (doc) => `/proyectos/${doc._raw.flattenedPath.replace(/^projects\//, '')}`,
+            resolve: (doc) => `/projects/${doc._raw.flattenedPath.replace(/^projects\//, '')}`,
         },
         cover: {
             type: 'string',
