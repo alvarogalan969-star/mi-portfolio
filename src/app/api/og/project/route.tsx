@@ -1,7 +1,7 @@
 /* src/app/api/og/project/route.tsx */
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
-import { allProjects } from "contentlayer/generated";
+import { allProjects, type Project } from "contentlayer/generated";
 
 export const runtime = "edge";
 export const alt = "Open Graph — Proyecto";
@@ -11,7 +11,7 @@ export const contentType = "image/png";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get("slug") ?? "";
-  const p = allProjects.find((x) => x.slug === slug);
+  const p = allProjects.find((x: Project) => x.slug === slug);
 
   const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://alvarogalanpascual.es";
   const title = p?.title ?? "Proyecto";

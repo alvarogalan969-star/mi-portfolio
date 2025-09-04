@@ -34,7 +34,7 @@ export default function ProjectCard({ p, locale }: { p: Project; locale: Locale 
           )}
           {p.tech?.length ? (
             <ul className="flex flex-wrap gap-1 pt-1">
-              {p.tech.slice(0, 6).map((t) => (
+              {p.tech.slice(0, 6).map((t: string) => (
                 <li key={t} className="text-xs px-2 py-0.5 rounded-full border">
                   {t}
                 </li>

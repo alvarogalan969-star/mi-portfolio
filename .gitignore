@@ -3,12 +3,25 @@
 
 # production
 /.next
+/.next/cache
 /out
+/.vercel               # si usas Vercel CLI
 
-# debug
+# contentlayer (arquivos generados)
+.contentlayer/
+
+# debug / logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# tooling caches
+.eslintcache
+.stylelintcache
+.turbo
+.pnpm-store
+.cache
 
 # env
 .env
@@ -17,7 +30,13 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# misc
+# OS / IDE
 .DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
 
-.contentlayer/
+# misc
+*.swp
+*.swo
