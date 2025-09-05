@@ -1,22 +1,35 @@
 // src/components/sections/CVSection.tsx
-import { type Locale } from "@/i18n/routing";
+import { createElement } from "react";
+import type { Locale } from "@/i18n/routing";
 
 const CV_BY_LOCALE: Record<string, string> = {
   es: "/cv/alvaro-galan-es.pdf",
-  en: "/cv/alvaro-galan-en.pdf"
+  en: "/cv/alvaro-galan-en.pdf",
+};
+
+function cx(...cls: Array<string | false | null | undefined>) {
+  return cls.filter(Boolean).join(" ");
+}
+
+type Props = {
+  locale: Locale;
+  title?: string;
+  lead?: string;
+  cta?: string;
+  titleAs?: "h2" | "h3";
+  titleClassName?: string;
+  leadClassName?: string;
 };
 
 export default function CVSection({
   locale,
   title,
   lead,
-  cta
-}: {
-  locale: Locale;
-  title?: string;
-  lead?: string;
-  cta?: string;
-}) {
+  cta,
+  titleAs = "h2",
+  titleClassName = "text-3xl font-bold", // ajusta al tamaño de tus secciones
+  leadClassName = "text-base",           // ajusta al tamaño de tus párrafos
+}: Props) {
   const href = CV_BY_LOCALE[locale] ?? CV_BY_LOCALE.es;
 
   const tTitle = title ?? (locale === "en" ? "Want my résumé?" : "¿Quieres mi CV?");
@@ -27,11 +40,13 @@ export default function CVSection({
       : "Descarga una copia actualizada en PDF.");
   const tCta = cta ?? (locale === "en" ? "Download CV" : "Descargar CV");
 
+  const HeadingTag = titleAs === "h3" ? "h3" : "h2";
+
   return (
     <section className="py-16">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-3xl font-bold text-app">{tTitle}</h2>
-        <p className="mt-2 text-muted max-w-2xl">{tLead}</p>
+        {createElement(HeadingTag, { className: cx(titleClassName, "text-app") }, tTitle)}
+        <p className={cx("mt-2 max-w-2xl", leadClassName, "text-muted")}>{tLead}</p>
 
         <div className="mt-6">
           <a
@@ -39,8 +54,8 @@ export default function CVSection({
             download
             type="application/pdf"
             className="inline-flex items-center gap-2 rounded-xl border border-app px-4 py-2
-              text-sm font-semibold text-app bg-transparent
-              transition-colors hover:bg-card"
+                       text-sm font-semibold text-app bg-transparent
+                       transition-colors hover:bg-card"
             aria-label={tCta}
           >
             <svg

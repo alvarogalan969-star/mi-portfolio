@@ -106,7 +106,12 @@ export default async function AboutPage(
         <EducationSection />
 
         <div className="mt-6">
-          <CVSection  locale={locale} />
+          <CVSection
+            locale={locale}
+            titleAs="h2"
+            titleClassName="text-4xl font-extrabold"  // ← mismo tamaño que tus otros h2
+            leadClassName="text-lg"                   // ← mismo tamaño que tus párrafos de sección
+          />
         </div>
       </main>
 
