@@ -30,10 +30,7 @@ export default async function HomeProjects({
           return (
             <div
               key={p.slug}
-              className="rounded-2xl border
-                         border-zinc-100 dark:border-zinc-800
-                         bg-zinc-50 dark:bg-zinc-900
-                         transition-shadow hover:shadow-md overflow-hidden"
+              className="rounded-2xl border border-app bg-card transition-shadow hover:shadow-md overflow-hidden"
             >
               <a href={href} aria-label={p.title} className="relative block aspect-[16/9]">
                 <Image
@@ -47,13 +44,11 @@ export default async function HomeProjects({
 
               <div className="p-4">
                 <a href={href} className="block">
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-                    {p.title}
-                  </h3>
+                  <h3 className="text-lg font-semibold text-app">{p.title}</h3>
                 </a>
 
                 {excerpt && (
-                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-1 text-sm text-muted">
                     {excerpt}
                   </p>
                 )}
@@ -61,12 +56,7 @@ export default async function HomeProjects({
                 <div className="mt-4">
                   <a
                     href={href}
-                    className="inline-flex items-center gap-1 rounded-xl border
-                               border-zinc-200 dark:border-zinc-700
-                               px-3 py-2 text-sm font-medium
-                               text-zinc-900 dark:text-white
-                               transition-colors
-                               hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    className="inline-flex items-center gap-1 rounded-xl border border-app px-3 py-2 text-sm font-semibold text-app transition hover:bg-card"
                     aria-label={`${cta}: ${p.title}`}
                   >
                     {cta} →
