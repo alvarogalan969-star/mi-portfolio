@@ -10,7 +10,7 @@ import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 
 import EducationSection from "./education/Education";
-import DownloadCV from "@/components/DownloadCV";
+import CVSection from "@/components/CVSection";
 
 /** SEO por idioma */
 export async function generateMetadata(
@@ -106,7 +106,7 @@ export default async function AboutPage(
         <EducationSection />
 
         <div className="mt-6">
-          <DownloadCV locale={locale} />
+          <CVSection  locale={locale} />
         </div>
       </main>
 
