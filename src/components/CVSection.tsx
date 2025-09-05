@@ -3,8 +3,8 @@ import { createElement } from "react";
 import type { Locale } from "@/i18n/routing";
 
 const CV_BY_LOCALE: Record<string, string> = {
-  es: "/cv/alvaro-galan-es.pdf",
-  en: "/cv/alvaro-galan-en.pdf",
+  es: "/cv/CV_Alvaro_Galan.pdf",
+  en: "/cv/CV_Alvaro_Galan.pdf",
 };
 
 function cx(...cls: Array<string | false | null | undefined>) {
