@@ -30,8 +30,9 @@ export default async function HomeProjects({
           return (
             <div
               key={p.slug}
-              className="rounded-2xl border border-zinc-200 dark:border-zinc-800
-                         bg-white dark:bg-zinc-900
+              className="rounded-2xl border
+                         border-zinc-100 dark:border-zinc-800
+                         bg-zinc-50 dark:bg-zinc-900
                          transition-shadow hover:shadow-md overflow-hidden"
             >
               <a href={href} aria-label={p.title} className="relative block aspect-[16/9]">
@@ -52,7 +53,7 @@ export default async function HomeProjects({
                 </a>
 
                 {excerpt && (
-                  <p className="mt-1 text-sm text-muted">
+                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                     {excerpt}
                   </p>
                 )}
