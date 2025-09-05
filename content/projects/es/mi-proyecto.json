@@ -2,10 +2,10 @@
     "slug": "mi-proyecto",
     "title": "Título del proyecto",
     "description": "Texto explicativo del proyecto.",
-    "cover": "/images/projects/mi-proyecto/cover.png",
+    "cover": "/images/projects/prueba/cover.png",
     "images": [
-        "/images/projects/mi-proyecto/1.png",
-        "/images/projects/mi-proyecto/2.png"
+        "/images/projects/prueba/1.png",
+        "/images/projects/prueba/2.png"
     ],
     "order": 1,
     "showOnHome": true
