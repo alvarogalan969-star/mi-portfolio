@@ -1,0 +1,16 @@
+{
+    "slug": "mi-portfolio",
+    "title": "Mi portfolio — stack y arquitectura",
+    "description": "Sitio personal construido con Next.js (App Router) + TypeScript, i18n con next-intl (rutas localizadas y <Link>/<getPathname>), estilos con Tailwind CSS, listado de proyectos desde JSON por locale, detalle por slug, destacados en home (showOnHome) y SEO con JSON-LD. Imágenes desde /public y optimización con next/image. Formulario de contacto implementado con Resend.",
+    "cover": "/images/projects/mi-portfolio/inicio_dark.png",
+    "images": [
+        "/images/projects/mi-portfolio/inicio_light.png",
+        "/images/projects/mi-portfolio/sobre-mi_start.png",
+        "/images/projects/mi-portfolio/sobre-mi_skills.png",
+        "/images/projects/mi-portfolio/blog.png",
+        "/images/projects/mi-portfolio/contacto.png",
+        "/images/projects/mi-portfolio/footer.png"
+    ],
+    "order": 1,
+    "showOnHome": false
+}
