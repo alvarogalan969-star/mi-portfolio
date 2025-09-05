@@ -27,8 +27,8 @@ export default function CVSection({
   lead,
   cta,
   titleAs = "h2",
-  titleClassName = "text-3xl font-bold", // ajusta al tamaño de tus secciones
-  leadClassName = "text-base",           // ajusta al tamaño de tus párrafos
+  titleClassName = "text-2xl font-semibold", // ajusta al tamaño de tus secciones
+  leadClassName = "text-sm",           // ajusta al tamaño de tus párrafos
 }: Props) {
   const href = CV_BY_LOCALE[locale] ?? CV_BY_LOCALE.es;
 
@@ -54,8 +54,8 @@ export default function CVSection({
             download
             type="application/pdf"
             className="inline-flex items-center gap-2 rounded-xl border border-app px-4 py-2
-                       text-sm font-semibold text-app bg-transparent
-                       transition-colors hover:bg-card"
+              text-sm font-semibold text-app bg-transparent
+              transition-colors hover:bg-card"
             aria-label={tCta}
           >
             <svg
