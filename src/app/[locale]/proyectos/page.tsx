@@ -10,6 +10,12 @@ import { siteConfig } from "@/config/site.config";
 import { getProjects } from "@/lib/content/projects";
 import Image from "next/image";
 
+/** Util: recorta descripciones largas (misma UX que en Home) */
+function truncate(text?: string, max = 160): string {
+  if (!text) return "";
+  return text.length > max ? text.slice(0, max).trimEnd() + "…" : text;
+}
+
 /** SEO por idioma */
 export async function generateMetadata(
   { params }: { params: Promise<{ locale: Locale }> }
@@ -17,9 +23,8 @@ export async function generateMetadata(
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Projects" });
 
-  // Canonical por idioma (respeta localePrefix: 'as-needed')
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
-  const pathname = getPathname({ locale, href: "/projects" }); // '/projects' interno → '/proyectos' en ES
+  const pathname = getPathname({ locale, href: "/projects" });
   const canonical = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
 
   return {
@@ -38,7 +43,7 @@ export default async function ProjectsPage(
   const t = await getTranslations({ locale, namespace: "Projects" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
-  // 👉 Cargamos los proyectos desde /content/projects/<locale>/*.json
+  // Proyectos desde /content/projects/<locale>/*.json
   const projects = getProjects(locale);
   const isEmpty = projects.length === 0;
 
@@ -66,6 +71,9 @@ export default async function ProjectsPage(
       { "@type": "ListItem", position: 2, name: t("title"), item: url }
     ]
   };
+
+  const cta = locale === "en" ? "See project" : "Ver proyecto";
+
   return (
     <>
       <section className="full-bleed border-b border-app bg-gradient-to-b from-zinc-50 to-white">
@@ -87,26 +95,41 @@ export default async function ProjectsPage(
                 locale,
                 href: { pathname: "/projects/[slug]", params: { slug: p.slug } }
               });
+              const excerpt = truncate(p.summary ?? p.description, 160);
+
               return (
-                <a
+                <div
                   key={p.slug}
-                  href={href}
-                  className="group rounded-2xl border border-zinc-200 hover:border-zinc-300 hover:shadow-md transition overflow-hidden"
+                  className="rounded-2xl border border-app bg-card transition-shadow hover:shadow-md overflow-hidden"
                 >
-                  <div className="relative aspect-[16/9]">
+                  <a href={href} aria-label={p.title} className="relative block aspect-[16/9]">
                     <Image
                       src={p.cover}
                       alt={p.title}
                       fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                       className="object-cover"
                     />
-                  </div>
+                  </a>
+
                   <div className="p-4">
-                    <h2 className="text-lg font-semibold">{p.title}</h2>
-                    <p className="mt-1 text-sm text-muted">{p.description}</p>
+                    <a href={href} className="block">
+                      <h3 className="text-lg font-semibold text-app">{p.title}</h3>
+                    </a>
+
+                    {excerpt && <p className="mt-1 text-sm text-muted">{excerpt}</p>}
+
+                    <div className="mt-4">
+                      <a
+                        href={href}
+                        className="inline-flex items-center gap-1 rounded-xl border border-app px-3 py-2 text-sm font-semibold text-app transition-colors hover:bg-card"
+                        aria-label={`${cta}: ${p.title}`}
+                      >
+                        {cta} →
+                      </a>
+                    </div>
                   </div>
-                </a>
+                </div>
               );
             })}
           </div>

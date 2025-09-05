@@ -38,7 +38,9 @@ export default function CVSection({
             href={href}
             download
             type="application/pdf"
-            className="inline-flex items-center gap-2 rounded-xl border border-app px-4 py-2 text-sm font-semibold text-app hover:bg-card transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl border border-app px-4 py-2
+              text-sm font-semibold text-app bg-transparent
+              transition-colors hover:bg-card"
             aria-label={tCta}
           >
             <svg
