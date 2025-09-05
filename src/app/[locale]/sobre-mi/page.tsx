@@ -10,6 +10,7 @@ import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 
 import EducationSection from "./education/Education";
+import DownloadCV from "@/components/DownloadCV";
 
 /** SEO por idioma */
 export async function generateMetadata(
@@ -30,8 +31,9 @@ export async function generateMetadata(
 }
 
 export default async function AboutPage(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ) {
+  const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "About" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
@@ -102,6 +104,10 @@ export default async function AboutPage(
         </section>
 
         <EducationSection />
+
+        <div className="mt-6">
+          <DownloadCV locale={locale} />
+        </div>
       </main>
 
       {/* JSON-LD */}
