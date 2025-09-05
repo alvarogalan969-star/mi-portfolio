@@ -7,10 +7,14 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link, type Locale } from "@/i18n/routing";
 
+import { getHomeProjects } from "@/lib/content/projects";
+import HomeProjects from "@/components/HomeProjects";
+
 /** SEO por idioma */
 export async function generateMetadata(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ): Promise<Metadata> {
+  const { locale } = await params;
   const tSEO = await getTranslations({ locale, namespace: "SEO" });
   return {
     title: tSEO("homeTitle"),
@@ -20,14 +24,16 @@ export async function generateMetadata(
 }
 
 export default async function HomePage(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ) {
+  const { locale } = await params;
   setRequestLocale(locale);
 
   const tHero = await getTranslations({ locale, namespace: "Hero" });
   const tProj = await getTranslations({ locale, namespace: "Projects" });
 
-  const isEmpty = true; // cuando tengas proyectos destacados, cámbialo o pinta las cards
+  const items = getHomeProjects(locale); // lee /content/projects/<locale>/*.json con showOnHome=true
+  const isEmpty = items.length === 0;
 
   const homeLd = {
     "@context": "https://schema.org",
@@ -96,8 +102,7 @@ export default async function HomePage(
             {tProj("title")}
           </h2>
 
-          <p className="mt-3 text-muted max-w-2xl text-center md:text-left mx-auto md:mx-0">
-            {/* Si no hay contenido aún, mostramos el aviso traducido */}
+          <p className="mt-3 text-muted max-w-2xl text-center md:mx-0 mx-auto md:text-left">
             {isEmpty ? tProj("empty") : " "}
           </p>
 
@@ -105,9 +110,8 @@ export default async function HomePage(
             {isEmpty ? (
               <ProyectosEmptyState />
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2">
-                {/* aquí irían tus cards destacadas cuando tengas contenido */}
-              </div>
+              // 👉 si hay proyectos, muestra la grid real
+              <HomeProjects locale={locale} limit={6} />
             )}
           </div>
 

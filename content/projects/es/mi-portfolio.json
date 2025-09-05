@@ -1,0 +1,16 @@
+{
+    "slug": "mi-portfolio",
+    "title": "Mi portfolio",
+    "description": "Mi primera web y mi primer proyecto personal: un portfolio donde cuento quién soy, lo que hago y cómo trabajo. Lo construí con Next.js y TypeScript, cuido el diseño con Tailwind CSS y traduzco el contenido con next-intl para que pueda verse en varios idiomas. El formulario de contacto funciona con Resend y las imágenes están optimizadas con next/image. Incluye una sección de proyectos gestionados desde archivos JSON, un blog y modo claro/oscuro; me ha servido para aprender y aplicar buenas prácticas de accesibilidad, SEO y rendimiento.",
+    "cover": "/images/projects/personal/inicio_dark.png",
+    "images": [
+        "/images/projects/personal/inicio_light.png",
+        "/images/projects/personal/sobre-mi_start.png",
+        "/images/projects/personal/sobre-mi_skills.png",
+        "/images/projects/personal/blog.png",
+        "/images/projects/personal/contacto.png",
+        "/images/projects/personal/footer.png"
+    ],
+    "order": 1,
+    "showOnHome": true
+}
