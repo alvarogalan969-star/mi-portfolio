@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link, type Locale } from "@/i18n/routing";
 
-import { getHomeProjects } from "@/lib/projects";
+import { getHomeProjects } from "@/lib/content/projects";
 import HomeProjects from "@/components/HomeProjects";
 
 /** SEO por idioma */
