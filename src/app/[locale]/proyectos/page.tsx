@@ -7,6 +7,9 @@ import ProyectosEmptyState from "@/components/ProyectosEmptyState";
 import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 
+import { getProjects } from "@/lib/content/projects";
+import Image from "next/image";
+
 /** SEO por idioma */
 export async function generateMetadata(
   { params: { locale } }: { params: { locale: Locale } }
@@ -33,10 +36,9 @@ export default async function ProjectsPage(
   const t = await getTranslations({ locale, namespace: "Projects" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
-  // Cuando tengas loader real:
-  // const projects = await getProjects();
-  // const isEmpty = projects.length === 0;
-  const isEmpty = true;
+  // 👉 Cargamos los proyectos desde /content/projects/<locale>/*.json
+  const projects = getProjects(locale);
+  const isEmpty = projects.length === 0;
 
   // URLs y JSON-LD localizados
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
@@ -78,8 +80,34 @@ export default async function ProjectsPage(
         {isEmpty ? (
           <ProyectosEmptyState />
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2">
-            {/* cards aquí */}
+          <div className="mx-auto max-w-6xl px-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((p) => {
+              const href = getPathname({
+                locale,
+                href: { pathname: "/projects/[slug]", params: { slug: p.slug } }
+              });
+              return (
+                <a
+                  key={p.slug}
+                  href={href}
+                  className="group rounded-2xl border border-zinc-200 hover:border-zinc-300 hover:shadow-md transition overflow-hidden"
+                >
+                  <div className="relative aspect-[16/9]">
+                    <Image
+                      src={p.cover}
+                      alt={p.title}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h2 className="text-lg font-semibold">{p.title}</h2>
+                    <p className="mt-1 text-sm text-muted">{p.description}</p>
+                  </div>
+                </a>
+              );
+            })}
           </div>
         )}
       </section>
