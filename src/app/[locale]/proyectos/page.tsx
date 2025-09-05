@@ -66,7 +66,6 @@ export default async function ProjectsPage(
       { "@type": "ListItem", position: 2, name: t("title"), item: url }
     ]
   };
-  console.log("jsonLd typeof:", typeof jsonLd);
   return (
     <>
       <section className="full-bleed border-b border-app bg-gradient-to-b from-zinc-50 to-white">
