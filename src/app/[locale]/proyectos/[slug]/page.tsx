@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site.config";
 import { getProjects, getProjectBySlug } from "@/lib/content/projects";
 
 const DEFAULT_COVER = "/images/placeholder/cover.jpg";
+import GalleryLightbox from "@/components/GalleryLightbox";
 
 /** (Opcional) SSG de slugs base; aquí tiramos del locale 'es' por defecto. */
 export function generateStaticParams() {
@@ -131,21 +132,10 @@ export default async function ProjectPage(
         </div>
 
         {/* Galería */}
-        {project.images?.length ? (
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {project.images.map((src, i) => (
-              <div key={src} className="relative aspect-[16/10] rounded-xl overflow-hidden border">
-                <Image
-                  src={src}
-                  alt={`${project.title} — ${i + 1}`}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        ) : null}
+        <GalleryLightbox
+          images={[project.cover ?? DEFAULT_COVER, ...(project.images ?? [])]}
+          title={project.title}
+        />
       </main>
 
       {/* JSON-LD */}
