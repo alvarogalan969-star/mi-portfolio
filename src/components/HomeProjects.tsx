@@ -48,15 +48,11 @@ export default async function HomeProjects({
 
               <div className="p-4">
                 <a href={href} className="block">
-                  <h3 className="text-lg font-semibold transition-colors
-                    group-hover:text-zinc-900 dark:group-hover:text-white">
-                    {p.title}
-                  </h3>
+                  <h3 className="text-lg font-semibold">{p.title}</h3>
                 </a>
 
                 {excerpt && (
-                  <p className="mt-1 text-sm text-muted transition-colors
-                    group-hover:text-zinc-700 dark:group-hover:text-zinc-300">
+                  <p className="mt-1 text-sm text-muted">
                     {excerpt}
                   </p>
                 )}
@@ -64,11 +60,8 @@ export default async function HomeProjects({
                 <div className="mt-4">
                   <a
                     href={href}
-                    className="inline-flex items-center gap-1 rounded-xl border
-                                border-zinc-200 dark:border-zinc-700
-                                px-3 py-2 text-sm font-medium
-                                hover:bg-zinc-100 dark:hover:bg-zinc-700
-                                hover:text-zinc-900 dark:hover:text-white"
+                    className="inline-flex items-center gap-1 rounded-xl border px-3 py-2 text-sm font-medium hover:bg-zinc-50"
+                    aria-label={`${cta}: ${p.title}`}
                   >
                     {cta} →
                   </a>
