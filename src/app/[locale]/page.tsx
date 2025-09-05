@@ -12,8 +12,9 @@ import HomeProjects from "@/components/HomeProjects";
 
 /** SEO por idioma */
 export async function generateMetadata(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ): Promise<Metadata> {
+  const { locale } = await params;
   const tSEO = await getTranslations({ locale, namespace: "SEO" });
   return {
     title: tSEO("homeTitle"),
@@ -23,8 +24,9 @@ export async function generateMetadata(
 }
 
 export default async function HomePage(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ) {
+  const { locale } = await params;
   setRequestLocale(locale);
 
   const tHero = await getTranslations({ locale, namespace: "Hero" });

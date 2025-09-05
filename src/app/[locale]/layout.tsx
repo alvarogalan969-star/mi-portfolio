@@ -34,8 +34,9 @@ export const dynamic = 'force-static';
  * Ajusta BASE_URL desde siteConfig.
  */
 export async function generateMetadata(
-    { params: { locale } }: { params: { locale: Locale } }
+    { params }: { params: Promise<{ locale: Locale }> }
     ): Promise<Metadata> {
+    const { locale } = await params;
     const BASE_URL = siteConfig.siteUrl.replace(/\/$/, '');
     const path = '/'; // si usas pathnames localizados, cámbialo dinámicamente
     const canonical = locale === 'en' ? `${BASE_URL}/en${path}` : `${BASE_URL}${path}`;
@@ -91,10 +92,10 @@ export async function generateMetadata(
     };
 }
 
-export default async function LocaleLayout({
-    children,
-    params: { locale }
-    }: Readonly<{ children: React.ReactNode; params: { locale: Locale } }>) {
+export default async function LocaleLayout(
+    { children, params }: { children: React.ReactNode; params: Promise<{ locale: Locale }> }
+    ) {
+    const { locale } = await params;
     // Fija el locale para mantener SSG y cargar mensajes correctos
     setRequestLocale(locale);
     const messages = await getMessages();

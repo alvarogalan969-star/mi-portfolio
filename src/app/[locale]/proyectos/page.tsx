@@ -12,8 +12,9 @@ import Image from "next/image";
 
 /** SEO por idioma */
 export async function generateMetadata(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Projects" });
 
   // Canonical por idioma (respeta localePrefix: 'as-needed')
@@ -29,8 +30,9 @@ export async function generateMetadata(
 }
 
 export default async function ProjectsPage(
-  { params: { locale } }: { params: { locale: Locale } }
+  { params }: { params: Promise<{ locale: Locale }> }
 ) {
+  const { locale } = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: "Projects" });
@@ -64,7 +66,7 @@ export default async function ProjectsPage(
       { "@type": "ListItem", position: 2, name: t("title"), item: url }
     ]
   };
-
+  console.log("jsonLd typeof:", typeof jsonLd);
   return (
     <>
       <section className="full-bleed border-b border-app bg-gradient-to-b from-zinc-50 to-white">

@@ -10,8 +10,6 @@ import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 import { getProjects, getProjectBySlug } from "@/lib/content/projects";
 
-type PageProps = { params: { locale: Locale; slug: string } };
-
 const DEFAULT_COVER = "/images/placeholder/cover.jpg";
 
 /** (Opcional) SSG de slugs base; aquí tiramos del locale 'es' por defecto. */
@@ -21,8 +19,9 @@ export function generateStaticParams() {
 
 /** Metadata por idioma + canonical correcto */
 export async function generateMetadata(
-  { params: { locale, slug } }: PageProps
+  { params }: { params: Promise<{ locale: Locale; slug: string }> }
 ): Promise<Metadata> {
+  const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: "Projects" });
   const project = getProjectBySlug(slug, locale);
 
@@ -58,7 +57,10 @@ export async function generateMetadata(
   };
 }
 
-export default async function ProjectPage({ params: { locale, slug } }: PageProps) {
+export default async function ProjectPage(
+  { params }: { params: Promise<{ locale: Locale; slug: string }> }
+) {
+  const { locale, slug } = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: "Projects" });
