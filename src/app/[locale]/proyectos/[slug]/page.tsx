@@ -1,7 +1,6 @@
 // src/app/[locale]/projects/[slug]/page.tsx
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getPathname, type Locale } from "@/i18n/routing";
@@ -11,7 +10,7 @@ import { siteConfig } from "@/config/site.config";
 import { getProjects, getProjectBySlug } from "@/lib/content/projects";
 
 const DEFAULT_COVER = "/images/placeholder/cover.jpg";
-import GalleryLightbox from "@/components/GalleryLightbox";
+import ProjectMedia from "@/components/ProjectMedia";
 
 /** (Opcional) SSG de slugs base; aquí tiramos del locale 'es' por defecto. */
 export function generateStaticParams() {
@@ -121,19 +120,9 @@ export default async function ProjectPage(
         {desc && <p className="mt-2 text-muted max-w-2xl">{desc}</p>}
 
         {/* Cover */}
-        <div className="mt-6 relative aspect-[16/9] rounded-2xl overflow-hidden border">
-          <Image
-            src={project.cover ?? DEFAULT_COVER}
-            alt={project.title}
-            fill
-            sizes="(min-width: 1024px) 80vw, 100vw"
-            className="object-cover"
-          />
-        </div>
-
-        {/* Galería */}
-        <GalleryLightbox
-          images={[project.cover ?? DEFAULT_COVER, ...(project.images ?? [])]}
+        <ProjectMedia
+          cover={project.cover ?? DEFAULT_COVER}
+          images={project.images ?? []}
           title={project.title}
         />
       </main>

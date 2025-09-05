@@ -48,10 +48,26 @@ export default forwardRef<GalleryLightboxHandle, Props>(function GalleryLightbox
             <button
                 key={src}
                 onClick={() => openAt(i)}
-                className="relative aspect-[16/10] rounded-xl overflow-hidden border focus:outline-none focus:ring cursor-pointer"
+                className="group relative aspect-[16/10] rounded-xl overflow-hidden border focus:outline-none focus:ring cursor-pointer"
                 aria-label={`Abrir imagen ${i + 1}`}
-            >
-                <Image src={src} alt={`${title} — ${i + 1}`} fill sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-cover" />
+                >
+                <Image
+                    src={src}
+                    alt={`${title} — ${i + 1}`}
+                    fill
+                    sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                />
+                {/* oscurecimiento */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
+                {/* icono lupa */}
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                </div>
             </button>
             ))}
         </div>
@@ -75,6 +91,7 @@ export default forwardRef<GalleryLightboxHandle, Props>(function GalleryLightbox
                 sizes="100vw"
                 className="object-contain"
                 priority
+                draggable={false}
                 />
 
                 <button
