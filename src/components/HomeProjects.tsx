@@ -30,25 +30,25 @@ export default async function HomeProjects({
           return (
             <div
               key={p.slug}
-              className="group rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-md transition overflow-hidden"
+              className="rounded-2xl border border-zinc-200 dark:border-zinc-800
+                         bg-white dark:bg-zinc-900
+                         transition-shadow hover:shadow-md overflow-hidden"
             >
-              <a
-                href={href}
-                aria-label={p.title}
-                className="relative block aspect-[16/9]"
-              >
+              <a href={href} aria-label={p.title} className="relative block aspect-[16/9]">
                 <Image
                   src={p.cover}
                   alt={p.title}
                   fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                   className="object-cover"
                 />
               </a>
 
               <div className="p-4">
                 <a href={href} className="block">
-                  <h3 className="text-lg font-semibold">{p.title}</h3>
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                    {p.title}
+                  </h3>
                 </a>
 
                 {excerpt && (
@@ -60,7 +60,12 @@ export default async function HomeProjects({
                 <div className="mt-4">
                   <a
                     href={href}
-                    className="inline-flex items-center gap-1 rounded-xl border px-3 py-2 text-sm font-medium hover:bg-zinc-50"
+                    className="inline-flex items-center gap-1 rounded-xl border
+                               border-zinc-200 dark:border-zinc-700
+                               px-3 py-2 text-sm font-medium
+                               text-zinc-900 dark:text-white
+                               transition-colors
+                               hover:bg-zinc-100 dark:hover:bg-zinc-800"
                     aria-label={`${cta}: ${p.title}`}
                   >
                     {cta} →
