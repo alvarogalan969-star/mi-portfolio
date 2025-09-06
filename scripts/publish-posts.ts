@@ -6,24 +6,41 @@ const draftsDir = path.join(process.cwd(), "content", "blog", "drafts");
 const postsDir = path.join(process.cwd(), "content", "blog", "posts");
 
 function publishDuePosts() {
-    if (!fs.existsSync(draftsDir)) return;
+  if (!fs.existsSync(draftsDir)) {
+    console.log("[SKIP] No existe drafts:", draftsDir);
+    return;
+  }
 
-    const files = fs.readdirSync(draftsDir).filter(f => /\.mdx?$/i.test(f));
+  // Asegura que exista posts/
+  fs.mkdirSync(postsDir, { recursive: true });
 
-    for (const file of files) {
-        const full = path.join(draftsDir, file);
-        const raw = fs.readFileSync(full, "utf8");
-        const { data } = matter(raw);
+  const files = fs.readdirSync(draftsDir).filter(f => /\.mdx?$/i.test(f));
+  console.log("[INFO] Drafts encontrados:", files);
 
-        const publishAt = data.publishAt ? new Date(data.publishAt) : null;
-        if (!publishAt) continue;
+  for (const file of files) {
+    const full = path.join(draftsDir, file);
+    const raw = fs.readFileSync(full, "utf8");
+    const { data } = matter(raw);
 
-        if (publishAt <= new Date()) {
-        const target = path.join(postsDir, file);
-        fs.renameSync(full, target);
-        console.log(`Publicado: ${file}`);
-        }
+    const publishAtStr = data.publishAt as string | undefined;
+    const publishAt = publishAtStr ? new Date(publishAtStr) : null;
+    const now = new Date();
+
+    console.log(`[CHECK] ${file} publishAt=${publishAtStr ?? "null"} now=${now.toISOString()}`);
+
+    if (!publishAt || isNaN(publishAt.getTime())) {
+      console.log(`[SKIP] ${file} sin publishAt válido`);
+      continue;
     }
+
+    if (publishAt <= now) {
+      const target = path.join(postsDir, file);
+      fs.renameSync(full, target);
+      console.log(`[PUBLISH] Movido a posts: ${file}`);
+    } else {
+      console.log(`[WAIT] ${file} todavía no vence`);
+    }
+  }
 }
 
 publishDuePosts();
