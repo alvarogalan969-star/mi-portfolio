@@ -3,7 +3,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import type { PostMeta } from '@/types/content';
 
-const blogDir = path.join(process.cwd(), 'src', 'content', 'blog');
+const blogDir = path.join(process.cwd(), "content", "blog", "posts");
 
 export function getPostMeta(): PostMeta[] {
   try {
