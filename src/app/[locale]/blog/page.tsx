@@ -4,7 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link, getPathname, type Locale } from "@/i18n/routing";
 import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
-// import { getPostMeta } from "@/lib/content/blog"; // cuando tengas posts
+ import { getPostMeta } from "@/lib/content/blog"; // cuando tengas posts
 
 export async function generateMetadata(
   { params: { locale } }: { params: { locale: Locale } }
@@ -31,9 +31,8 @@ export default async function BlogPage(
   const t = await getTranslations({ locale, namespace: "Blog" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
-  // const posts = await getPostMeta();
-  // const isEmpty = posts.length === 0;
-  const isEmpty = true;
+  const posts = await getPostMeta();
+  const isEmpty = posts.length === 0;
 
   // URL y JSON-LD por idioma
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
@@ -90,21 +89,30 @@ export default async function BlogPage(
           </div>
         ) : (
           <ul className="mx-auto max-w-6xl divide-y divide-zinc-200 rounded-2xl border border-app bg-card">
-            {/* {posts.map((post) => (
-              <li key={post.slug} className="p-6">
-                <article>
-                  <h2 className="text-xl font-semibold text-app">
-                    <Link href={`/blog/${post.slug}`} className="hover:underline">
-                      {post.title}
-                    </Link>
-                  </h2>
-                  <p className="mt-1 text-muted">{post.excerpt}</p>
-                  <time className="mt-2 block text-sm text-muted" dateTime={post.dateISO}>
-                    {post.dateHuman}
-                  </time>
-                </article>
-              </li>
-            ))} */}
+            {posts.map((post) => {
+              const iso = (post.updatedAt || post.date) ?? undefined;
+              const human = iso ? new Date(iso).toLocaleDateString(locale, { year: "numeric", month: "long", day: "2-digit" }) : "";
+              return (
+                <li key={post.slug} className="p-6">
+                  <article>
+                    <h2 className="text-xl font-semibold text-app">
+                      <Link
+                        href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
+                        className="hover:underline"
+                      >
+                        {post.title}
+                      </Link>
+                    </h2>
+                    {post.summary && <p className="mt-1 text-muted">{post.summary}</p>}
+                    {iso && (
+                      <time className="mt-2 block text-sm text-muted" dateTime={iso}>
+                        {human}
+                      </time>
+                    )}
+                  </article>
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

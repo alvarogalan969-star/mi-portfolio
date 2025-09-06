@@ -32,3 +32,24 @@ export function getPostMeta(): PostMeta[] {
     return [];
   }
 }
+
+export function getPostBySlug(slug: string) {
+  const tryExt = (ext: "md" | "mdx") => path.join(blogDir, `${slug}.${ext}`);
+  const file = [tryExt("mdx"), tryExt("md")].find(fs.existsSync);
+  if (!file) return null;
+
+  const raw = fs.readFileSync(file, "utf8");
+  const { data, content } = matter(raw);
+
+  return {
+    meta: {
+      slug,
+      title: (data.title as string) || slug,
+      summary: data.summary as string | undefined,
+      tags: Array.isArray(data.tags) ? (data.tags as string[]) : undefined,
+      date: typeof data.date === "string" ? data.date : undefined,
+      updatedAt: typeof data.updatedAt === "string" ? data.updatedAt : undefined,
+    },
+    content,
+  };
+}
