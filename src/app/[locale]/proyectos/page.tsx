@@ -96,6 +96,7 @@ export default async function ProjectsPage(
                 href: { pathname: "/projects/[slug]", params: { slug: p.slug } }
               });
               const excerpt = truncate(p.summary ?? p.description, 160);
+              const DEFAULT_COVER = "/images/placeholder/cover.jpg";
 
               return (
                 <div
@@ -104,7 +105,7 @@ export default async function ProjectsPage(
                 >
                   <a href={href} aria-label={p.title} className="relative block aspect-[16/9]">
                     <Image
-                      src={p.cover}
+                      src={p.cover ?? DEFAULT_COVER}
                       alt={p.title}
                       fill
                       sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
