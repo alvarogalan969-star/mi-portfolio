@@ -1,0 +1,55 @@
+name: Publish blog posts
+
+on:
+  push:
+    branches: ["feature/blog-automation"] # para pruebas en tu rama
+    paths:
+      - "content/blog/drafts/**"
+      - "content/blog/posts/**"
+      - "scripts/publish-posts.ts"
+      - ".github/workflows/publish-posts.yml"
+  workflow_dispatch: {} # permite lanzarlo manual desde Actions
+  # en producción puedes activar cron en main branch:
+  # schedule:
+  #   - cron: "0 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run publisher
+        run: pnpm publish:posts
+
+      - name: Commit & push changes (if any)
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add content/blog/posts content/blog/drafts || true
+            git commit -m "chore(blog): publish due posts [skip ci]"
+            git push
+          else
+            echo "No posts to publish."
+          fi
+
+      - name: Trigger Vercel deploy
+        if: always()
+        run: curl -X POST "$VERCEL_DEPLOY_HOOK_URL"
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
