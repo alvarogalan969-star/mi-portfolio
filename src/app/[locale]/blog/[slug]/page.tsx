@@ -8,6 +8,8 @@ import { notFound } from "next/navigation";
 import MDX from "@/components/MDX";
 import { getPostBySlug } from "@/lib/content/blog";
 
+export const revalidate = 0;
+
 export async function generateMetadata(
   { params: { locale, slug } }: { params: { locale: Locale; slug: string } }
 ): Promise<Metadata> {

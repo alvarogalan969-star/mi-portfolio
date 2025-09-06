@@ -6,6 +6,8 @@ import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
  import { getPostMeta } from "@/lib/content/blog"; // cuando tengas posts
 
+export const revalidate = 0;
+
 export async function generateMetadata(
   { params: { locale } }: { params: { locale: Locale } }
 ): Promise<Metadata> {
