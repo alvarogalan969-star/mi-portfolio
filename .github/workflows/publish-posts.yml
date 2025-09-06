@@ -10,8 +10,8 @@ on:
       - ".github/workflows/publish-posts.yml"
   workflow_dispatch: {} # permite lanzarlo manual desde Actions
   # en producción puedes activar cron en main branch:
-  # schedule:
-  #   - cron: "0 * * * *"
+  schedule:
+     - cron: "*/15 * * * *"
 
 permissions:
   contents: write
