@@ -10,7 +10,9 @@ import { siteConfig } from "@/config/site.config";
 import { getProjects, getProjectBySlug } from "@/lib/content/projects";
 
 const DEFAULT_COVER = "/images/placeholder/cover.jpg";
-import ProjectMedia from "@/components/ProjectMedia";
+import dynamic from "next/dynamic";
+
+const ProjectMedia = dynamic(() => import("@/components/ProjectMedia"), { ssr: false });
 
 /** (Opcional) SSG de slugs base; aquí tiramos del locale 'es' por defecto. */
 export function generateStaticParams() {
@@ -121,7 +123,7 @@ export default async function ProjectPage(
 
         {/* Cover */}
         <ProjectMedia
-          cover={project.cover ?? DEFAULT_COVER}
+          cover={project.cover ?? "/images/placeholder/cover.jpg"}
           images={project.images ?? []}
           title={project.title}
         />
