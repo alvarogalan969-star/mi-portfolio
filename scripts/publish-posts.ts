@@ -43,4 +43,17 @@ function publishDuePosts() {
   }
 }
 
+function ensureDraftsDir() {
+  if (!fs.existsSync(draftsDir)) {
+    fs.mkdirSync(draftsDir, { recursive: true });
+  }
+  const files = fs.readdirSync(draftsDir).filter(f => !f.startsWith("."));
+  if (files.length === 0) {
+    const keepFile = path.join(draftsDir, ".gitkeep");
+    fs.writeFileSync(keepFile, "");
+    console.log("[INFO] .gitkeep añadido en drafts/");
+  }
+}
+
 publishDuePosts();
+ensureDraftsDir();
