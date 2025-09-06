@@ -1,66 +1,96 @@
-// src/app/[locale]/projects/page.tsx
+// src/app/[locale]/projects/[slug]/page.tsx
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getPathname, type Locale } from "@/i18n/routing";
 
-import ProyectosEmptyState from "@/components/ProyectosEmptyState";
 import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
+import { getProjects, getProjectBySlug } from "@/lib/content/projects";
 
-import { getProjects } from "@/lib/content/projects";
-import Image from "next/image";
+import ClientOnly from "@/components/ClientOnly";
+import ProjectMedia from "@/components/ProjectMedia";
 
-/** Util: recorta descripciones largas (misma UX que en Home) */
-function truncate(text?: string, max = 160): string {
-  if (!text) return "";
-  return text.length > max ? text.slice(0, max).trimEnd() + "…" : text;
+const DEFAULT_COVER = "/images/placeholder/cover.jpg";
+
+type Params = { locale: Locale; slug: string };
+
+/** SSG de slugs (por defecto ES) */
+export function generateStaticParams() {
+  return getProjects("es").map((p) => ({ slug: p.slug }));
 }
 
-/** SEO por idioma */
+/** Metadata por idioma + canonical correcto */
 export async function generateMetadata(
-  { params }: { params: Promise<{ locale: Locale }> }
+  { params }: { params: Promise<Params> }
 ): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: "Projects" });
+  const project = getProjectBySlug(slug, locale);
 
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
-  const pathname = getPathname({ locale, href: "/projects" });
+  const pathname = getPathname({
+    locale,
+    href: { pathname: "/projects/[slug]", params: { slug } }
+  });
   const canonical = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
 
+  if (!project) {
+    return {
+      title: `${t("title")} — ${slug}`,
+      description: t("detail.notFound", { slug }),
+      alternates: { canonical },
+      robots: { index: false, follow: true }
+    };
+  }
+
+  const desc = project.summary ?? project.description ?? t("detail.descriptionFallback");
+
   return {
-    title: t("title"),
-    description: t("description"),
-    alternates: { canonical }
+    title: project.title,
+    description: desc,
+    alternates: { canonical },
+    openGraph: {
+      title: project.title,
+      description: desc,
+      url: canonical,
+      type: "article",
+      images: project.cover ? [{ url: project.cover }] : undefined
+    }
   };
 }
 
-export default async function ProjectsPage(
-  { params }: { params: Promise<{ locale: Locale }> }
+export default async function ProjectPage(
+  { params }: { params: Promise<Params> }
 ) {
-  const { locale } = await params;
+  const { locale, slug } = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: "Projects" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
-  // Proyectos desde /content/projects/<locale>/*.json
-  const projects = getProjects(locale);
-  const isEmpty = projects.length === 0;
+  const project = getProjectBySlug(slug, locale);
+  if (!project) return notFound();
 
-  // URLs y JSON-LD localizados
   const BASE = siteConfig.siteUrl.replace(/\/$/, "");
-  const pathname = getPathname({ locale, href: "/projects" });
+  const pathname = getPathname({
+    locale,
+    href: { pathname: "/projects/[slug]", params: { slug } }
+  });
   const url = locale === "en" ? `${BASE}/en${pathname}` : `${BASE}${pathname}`;
   const inLanguage = locale === "en" ? "en-US" : "es-ES";
+  const desc = project.summary ?? project.description ?? t("detail.descriptionFallback");
 
-  const proyectosLd = {
+  const projectLd = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: t("title"),
+    "@type": "CreativeWork",
+    name: project.title,
+    description: desc,
     url,
     inLanguage,
-    isPartOf: { "@type": "WebSite", url: siteConfig.siteUrl },
-    about: { "@type": "Person", name: siteConfig.author.name, url: siteConfig.siteUrl }
+    image: [project.cover ?? DEFAULT_COVER, ...(project.images ?? [])],
+    author: { "@type": "Person", name: siteConfig.author.name, url: siteConfig.siteUrl },
+    isPartOf: { "@type": "WebSite", url: siteConfig.siteUrl }
   };
 
   const breadcrumbsLd = {
@@ -68,77 +98,38 @@ export default async function ProjectsPage(
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: tCommon("siteName"), item: siteConfig.siteUrl },
-      { "@type": "ListItem", position: 2, name: t("title"), item: url }
+      {
+        "@type": "ListItem", position: 2, name: t("title"),
+        item: `${BASE}${locale === "en" ? "/en" : ""}${getPathname({ locale, href: "/projects" })}`
+      },
+      { "@type": "ListItem", position: 3, name: project.title, item: url }
     ]
   };
 
-  const cta = locale === "en" ? "See project" : "Ver proyecto";
-
   return (
     <>
-      <section className="full-bleed border-b border-app bg-gradient-to-b from-zinc-50 to-white">
-        <div className="mx-auto max-w-6xl px-6 py-16 bg-app text-app">
-          <h1 className="text-4xl font-extrabold tracking-tight text-app">{t("title")}</h1>
-          <p className="mt-3 text-muted max-w-2xl">
-            {t("lead")} {isEmpty && t("empty")}
-          </p>
+      <main className="mx-auto max-w-6xl px-6 py-12">
+        <a href={getPathname({ locale, href: "/projects" })} className="text-sm underline opacity-80">
+          {locale === "en" ? "← Back to projects" : "← Volver a proyectos"}
+        </a>
+
+        <h1 className="mt-3 text-3xl font-bold">{project.title}</h1>
+        {desc && <p className="mt-2 text-muted max-w-2xl">{desc}</p>}
+
+        {/* Media: solo cliente para evitar hydration issues en móvil */}
+        <div suppressHydrationWarning>
+          <ClientOnly>
+            <ProjectMedia
+              cover={project.cover ?? DEFAULT_COVER}
+              images={project.images ?? []}
+              title={project.title}
+            />
+          </ClientOnly>
         </div>
-      </section>
-
-      <section className="py-16">
-        {isEmpty ? (
-          <ProyectosEmptyState />
-        ) : (
-          <div className="mx-auto max-w-6xl px-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((p) => {
-              const href = getPathname({
-                locale,
-                href: { pathname: "/projects/[slug]", params: { slug: p.slug } }
-              });
-              const excerpt = truncate(p.summary ?? p.description, 160);
-              const DEFAULT_COVER = "/images/placeholder/cover.jpg";
-
-              return (
-                <div
-                  key={p.slug}
-                  className="rounded-2xl border border-app bg-card transition-shadow hover:shadow-md overflow-hidden"
-                >
-                  <a href={href} aria-label={p.title} className="relative block aspect-[16/9]">
-                    <Image
-                      src={p.cover ?? DEFAULT_COVER}
-                      alt={p.title}
-                      fill
-                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                      className="object-cover"
-                    />
-                  </a>
-
-                  <div className="p-4">
-                    <a href={href} className="block">
-                      <h3 className="text-lg font-semibold text-app">{p.title}</h3>
-                    </a>
-
-                    {excerpt && <p className="mt-1 text-sm text-muted">{excerpt}</p>}
-
-                    <div className="mt-4">
-                      <a
-                        href={href}
-                        className="inline-flex items-center gap-1 rounded-xl border border-app px-3 py-2 text-sm font-semibold text-app transition-colors hover:bg-card"
-                        aria-label={`${cta}: ${p.title}`}
-                      >
-                        {cta} →
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
+      </main>
 
       {/* JSON-LD */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(proyectosLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(projectLd)} />
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbsLd)} />
     </>
   );
