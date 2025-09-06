@@ -9,10 +9,10 @@ import { jsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/config/site.config";
 import { getProjects, getProjectBySlug } from "@/lib/content/projects";
 
-const DEFAULT_COVER = "/images/placeholder/cover.jpg";
-import dynamic from "next/dynamic";
+import ProjectMedia from "@/components/ProjectMedia";
+import ClientOnly from "@/components/ClientOnly";
 
-const ProjectMedia = dynamic(() => import("@/components/ProjectMedia"), { ssr: false });
+const DEFAULT_COVER = "/images/placeholder/cover.jpg";
 
 /** (Opcional) SSG de slugs base; aquí tiramos del locale 'es' por defecto. */
 export function generateStaticParams() {
@@ -122,11 +122,13 @@ export default async function ProjectPage(
         {desc && <p className="mt-2 text-muted max-w-2xl">{desc}</p>}
 
         {/* Cover */}
-        <ProjectMedia
-          cover={project.cover ?? "/images/placeholder/cover.jpg"}
-          images={project.images ?? []}
-          title={project.title}
-        />
+        <ClientOnly>
+          <ProjectMedia
+            cover={project.cover ?? DEFAULT_COVER}
+            images={project.images ?? []}
+            title={project.title}
+          />
+        </ClientOnly>
       </main>
 
       {/* JSON-LD */}
