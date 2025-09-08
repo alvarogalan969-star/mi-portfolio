@@ -21,6 +21,7 @@ export function getPostMeta(): PostMeta[] {
         tags: Array.isArray(data.tags) ? (data.tags as string[]) : undefined,
         date: typeof data.date === 'string' ? data.date : undefined,
         updatedAt: typeof data.updatedAt === 'string' ? data.updatedAt : undefined,
+        cover: typeof data.cover === 'string' ? data.cover : undefined,
       };
     });
     return metas.sort((a, b) => {
@@ -49,6 +50,7 @@ export function getPostBySlug(slug: string) {
       tags: Array.isArray(data.tags) ? (data.tags as string[]) : undefined,
       date: typeof data.date === "string" ? data.date : undefined,
       updatedAt: typeof data.updatedAt === "string" ? data.updatedAt : undefined,
+      cover: typeof data.cover === "string" ? data.cover : undefined,
     },
     content,
   };

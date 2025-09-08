@@ -21,4 +21,5 @@ export interface PostMeta {
   tags?: string[];
   date?: ISODate;
   updatedAt?: ISODate;
+  cover?: string;
 }
